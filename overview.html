@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Overview | HMS PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --navy: #0f172a;
+      --bg-main: #f8fafc;
+      --accent: #10b981; /* Success Green */
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg-main); color: #1e293b; line-height: 1.6; }
+
+    /* --- NAVBAR --- */
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h3 { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+    header a { color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; opacity: 0.8; transition: 0.3s; }
+    header a:hover { opacity: 1; color: var(--primary); }
+
+    /* --- PAGE HEADER --- */
+    .dashboard-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 60px 20px 100px;
+      text-align: center;
+    }
+    .dashboard-header h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; }
+    
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .pulse {
+      width: 8px; height: 8px; background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+      animation: pulse-animation 2s infinite;
+    }
+    @keyframes pulse-animation { 0% { box-shadow: 0 0 0 0px rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0px rgba(16, 185, 129, 0); } }
+
+    /* --- STATS GRID --- */
+    .container {
+      max-width: 1200px;
+      margin: -60px auto 80px;
+      padding: 0 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+    }
+
+    .stat-card {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+      border: 1px solid #f1f5f9;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .stat-card i {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: #f0f3ff;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 18px;
+      display: inline-block;
+    }
+
+    .stat-card h2 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 5px;
+      letter-spacing: -1px;
+    }
+
+    .stat-card p {
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* --- INFO SECTION --- */
+    .info-box {
+      margin-top: 40px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 24px;
+      border: 1px solid #f1f5f9;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 1.2rem 1.5rem; }
+      .dashboard-header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h3><i class="fas fa-chart-pie"></i> HMS PRO DASHBOARD</h3>
+  <a href="index.html"><i class="fas fa-home"></i> Return Home</a>
+</header>
+
+<section class="dashboard-header">
+    <div class="live-indicator">
+        <div class="pulse"></div>
+        LIVE SYSTEM FEED
+    </div>
+    <h1>Hospital Real-Time Overview</h1>
+</section>
+
+<div class="container">
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <i class="fas fa-user-injured"></i>
+      <h2 id="patientCount">--</h2>
+      <p>Total Patients</p>
+    </div>
+
+    <div class="stat-card">
+      <i class="fas fa-calendar-check"></i>
+      <h2 id="appointmentCount">--</h2>
+      <p>Appointments</p>
+    </div>
+
+    <div class="stat-card">
+      <i class="fas fa-user-md"></i>
+      <h2 id="doctorCount">--</h2>
+      <p>Doctors Online</p>
+    </div>
+
+    <div class="stat-card">
+      <i class="fas fa-microscope"></i>
+      <h2 id="labCount">--</h2>
+      <p>Lab Reports</p>
+    </div>
+
+  </div>
+
+  <div class="info-box">
+    <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+    Statistics are updated in real-time from the central Firebase database to provide accurate hospital status.
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 City Hospital Kolhapur | Managed by HMS PRO Infrastructure
+</footer>
+
+<script type="module" src="./js/overview.js"></script>
+
+</body>
+</html>

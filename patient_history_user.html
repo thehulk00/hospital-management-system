@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Medical History</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .card-header {
+            background: #1f3c88;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-header h2 { margin: 0; font-size: 24px; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #f8f9fa;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        tr:hover { background: #fcfcfc; }
+
+        /* Status Badges */
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .booked { background: #e3f2fd; color: #1976d2; }
+        .pending { background: #fff3e0; color: #ef6c00; }
+        .completed { background: #e8f5e9; color: #2e7d32; }
+        
+        .lab-row { background-color: #f0f7ff; }
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid white;
+            padding: 5px 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>🏥 My Medical History</h2>
+            <a href="../patient.html" class="back-btn">Back to Dashboard</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Admission</th>
+                    <th>Admit Date</th>
+                    <th>Discharge</th>
+                    <th>Details / Lab Report</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="module" src="../js/patient_history_user.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Profile | HMS PRO</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b; --border: #e2e8f0; --secondary: #64748b; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; }
+
+        .profile-container { max-width: 800px; margin: auto; }
+
+        /* Dashboard-style Card */
+        .info-card { background: white; padding: 30px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        
+        .profile-header { display: flex; align-items: center; gap: 25px; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid var(--border); }
+        .profile-icon { width: 80px; height: 80px; background: #eff6ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        
+        .header-content h1 { margin: 0; font-size: 22px; }
+        .header-content p { margin: 5px 0; color: var(--secondary); font-weight: 500; }
+
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .detail-group label { display: block; font-size: 11px; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        .detail-group span { font-size: 15px; font-weight: 600; color: var(--text); }
+
+        /* Action Buttons */
+        .action-bar { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .btn { padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: 0.2s; }
+        .btn-view { background: var(--primary); color: white; }
+        .btn-back { background: #f1f5f9; color: var(--secondary); }
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+        .modal-content { background: white; margin: 5% auto; padding: 40px; border-radius: 16px; width: 90%; max-width: 700px; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .modal-content { margin: 0; width: 100%; box-shadow: none; border: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <div class="info-card">
+        <div class="profile-header">
+            <div class="profile-icon"><i class="fas fa-user-md" id="roleIcon"></i></div>
+            <div class="header-content">
+                <h1 id="staffName">Loading...</h1>
+                <p id="staffRole">Professional Designation</p>
+                <span style="font-size: 12px; color: #059669; font-weight: 700;"><i class="fas fa-check-circle"></i> VERIFIED STAFF</span>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            <div class="detail-group">
+                <label>Email Address</label>
+                <span id="staffEmail">---</span>
+            </div>
+            <div class="detail-group">
+                <label>Phone Number</label>
+                <span id="staffPhone">---</span>
+            </div>
+            <div class="detail-group">
+                <label>Department</label>
+                <span id="staffDept">---</span>
+            </div>
+            <div class="detail-group">
+                <label>Work Shift</label>
+                <span id="staffShift">---</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <a href="staff_report.html" class="btn btn-back">← Back</a>
+        <button onclick="openPrintPreview()" class="btn btn-view"><i class="fas fa-print"></i> View & Print Profile</button>
+    </div>
+</div>
+
+<div id="printModal" class="modal">
+    <div class="modal-content" id="printableArea">
+        <div style="border: 2px solid #e2e8f0; padding: 30px; border-radius: 10px;">
+            <div style="text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 20px; margin-bottom: 20px;">
+                <h2 style="margin:0; color:#2563eb;">HMS PRO MEDICAL CENTER</h2>
+                <p style="margin:5px 0; color:#64748b;">Official Staff Identity Record</p>
+            </div>
+            <div id="modalBody"></div>
+            <div style="margin-top: 40px; font-size: 11px; color: #94a3b8; text-align: center;">
+                This document is a system-generated profile for internal use only.
+            </div>
+        </div>
+        
+        <div class="action-bar no-print" style="justify-content: flex-end; margin-top: 30px;">
+            <button onclick="window.print()" class="btn btn-view">Print Now</button>
+            <button onclick="closeModal()" class="btn btn-back">Close</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { db } from "../js/firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const params = new URLSearchParams(window.location.search);
+    const staffId = params.get('id');
+
+    async function loadDetails() {
+        if (!staffId) return;
+        const snap = await getDoc(doc(db, "staff", staffId));
+        if (snap.exists()) {
+            const data = snap.data();
+            document.getElementById('staffName').innerText = data.name;
+            document.getElementById('staffRole').innerText = data.role;
+            document.getElementById('staffEmail').innerText = data.email || "N/A";
+            document.getElementById('staffPhone').innerText = data.phone || "N/A";
+            document.getElementById('staffDept').innerText = data.department;
+            document.getElementById('staffShift').innerText = data.shift;
+
+            // Icon logic
+            const icon = document.getElementById('roleIcon');
+            if(data.role.toLowerCase().includes("nurse")) icon.className = "fas fa-user-nurse";
+            if(data.role.toLowerCase().includes("admin")) icon.className = "fas fa-user-tie";
+        }
+    }
+
+    window.openPrintPreview = function() {
+        // Clone the content into the modal
+        const name = document.getElementById('staffName').innerText;
+        const role = document.getElementById('staffRole').innerText;
+        const email = document.getElementById('staffEmail').innerText;
+        const dept = document.getElementById('staffDept').innerText;
+        const shift = document.getElementById('staffShift').innerText;
+
+        document.getElementById('modalBody').innerHTML = `
+            <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 30px;">
+                <div style="width: 60px; height: 60px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #2563eb;">
+                    <i class="${document.getElementById('roleIcon').className}"></i>
+                </div>
+                <div>
+                    <h3 style="margin:0;">${name}</h3>
+                    <p style="margin:0; color:#64748b;">${role}</p>
+                </div>
+            </div>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>Department:</strong></td><td>${dept}</td></tr>
+                <tr><td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>Shift:</strong></td><td>${shift}</td></tr>
+                <tr><td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>Contact:</strong></td><td>${email}</td></tr>
+            </table>
+        `;
+        document.getElementById('printModal').style.display = 'block';
+    }
+
+    window.closeModal = function() { document.getElementById('printModal').style.display = 'none'; }
+
+    loadDetails();
+</script>
+
+</body>
+</html>

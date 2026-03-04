@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Invoice | HMS PRO</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #2563eb; --text: #1e293b; --border: #e2e8f0; --success: #059669; --warning: #d97706; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: var(--text); margin: 0; padding: 40px; }
+
+        .invoice-card {
+            background: #ffffff;
+            max-width: 800px;
+            margin: auto;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .status-stamp {
+            position: absolute;
+            top: 40px;
+            right: 50px;
+            font-size: 22px;
+            font-weight: 900;
+            padding: 8px 16px;
+            border: 4px solid;
+            border-radius: 4px;
+            transform: rotate(-10deg);
+            text-transform: uppercase;
+            opacity: 0.3;
+        }
+
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--border); padding-bottom: 30px; margin-bottom: 30px; }
+        .hospital-logo h1 { margin: 0; color: var(--primary); font-size: 26px; letter-spacing: -1px; }
+        .hospital-logo p { margin: 4px 0; font-size: 12px; color: #64748b; }
+
+        .meta-info { text-align: right; }
+        .meta-info h2 { margin: 0; font-size: 20px; color: #64748b; }
+
+        .details-row { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 40px; }
+        .label { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 5px; }
+        .val { font-size: 15px; font-weight: 600; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+        th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid var(--border); font-size: 11px; text-transform: uppercase; color: #64748b; }
+        td { padding: 15px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+
+        .total-section { width: 280px; margin-left: auto; }
+        .total-row { display: flex; justify-content: space-between; padding: 8px 0; }
+        .grand-total { border-top: 2px solid var(--border); margin-top: 10px; padding-top: 10px; font-weight: 800; color: var(--primary); font-size: 18px; }
+
+        .footer { margin-top: 60px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid var(--border); padding-top: 20px; }
+
+        .action-bar { display: flex; justify-content: center; gap: 12px; margin-top: 30px; }
+        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: 0.2s; text-decoration: none; }
+        .btn-download { background: var(--primary); color: white; }
+        .btn-print { background: #1e293b; color: white; }
+        .btn-back { background: #e2e8f0; color: #475569; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .invoice-card { box-shadow: none; border: none; width: 100%; max-width: 100%; }
+            .action-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-card" id="invoiceArea">
+    <div id="statusStamp" class="status-stamp">PENDING</div>
+
+    <div class="header">
+        <div class="hospital-logo">
+            <h1>CITY HOSPITAL KOLHAPUR</h1>
+            <p>Shivaji Nagar, Kolhapur, Maharashtra</p>
+            <p>Tel: +91 231 265 XXXX | support@cityhospital.com</p>
+        </div>
+        <div class="meta-info">
+            <h2>OFFICIAL RECEIPT</h2>
+            <p id="invId" style="font-weight:700; margin: 5px 0;">#---</p>
+            <p id="invDate" style="font-size:13px; color:#64748b;">Date: --/--/----</p>
+        </div>
+    </div>
+
+    <div class="details-row">
+        <div>
+            <div class="label">Patient Information</div>
+            <div class="val" id="pName">Loading...</div>
+            <div class="label" style="margin-top: 15px;">Mode of Payment</div>
+            <div class="val" id="pMethod" style="color: var(--primary);">---</div>
+        </div>
+        <div style="text-align: right;">
+            <div class="label">Consultant In-Charge</div>
+            <div class="val" id="dName">--</div>
+            <div id="dDept" style="font-size:12px; color:#64748b;">Medical Specialist</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Service Description</th>
+                <th style="text-align: right;">Amount</th>
+            </tr>
+        </thead>
+        <tbody id="invoiceItems">
+            <tr>
+                <td>Hospital Professional Charges & Services</td>
+                <td id="rowAmt" style="text-align: right; font-weight: 600;">₹ 0.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="total-section">
+        <div class="total-row">
+            <span>Subtotal</span>
+            <span id="subTotal">₹ 0.00</span>
+        </div>
+        <div class="total-row">
+            <span>GST / Taxes (0%)</span>
+            <span>₹ 0.00</span>
+        </div>
+        <div class="total-row grand-total">
+            <span>Total Paid</span>
+            <span id="finalTotal">₹ 0.00</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>This is a digitally generated invoice for City Hospital Kolhapur medical services.</p>
+        <p>Computer Generated Record - No signature required.</p>
+    </div>
+</div>
+
+<div class="action-bar">
+    <button onclick="downloadInvoicePDF()" class="btn btn-download"><i class="fas fa-file-pdf"></i> Download PDF</button>
+    <button onclick="window.print()" class="btn btn-print"><i class="fas fa-print"></i> Print</button>
+    <a href="billing_report.html" class="btn btn-back">Back to List</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script type="module">
+    import { db } from "../js/firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const params = new URLSearchParams(window.location.search);
+    const invoiceId = params.get('id');
+
+    async function fetchInvoiceData() {
+        if (!invoiceId) return;
+
+        try {
+            const docRef = doc(db, "billing", invoiceId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                const formattedAmt = Number(data.totalAmount || 0).toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                // --- FIX: Double Dr. Problem ---
+                let docNameClean = data.doctorName || "Staff Professional";
+                // If it already starts with "Dr.", don't add it again.
+                if (!docNameClean.startsWith("Dr.")) {
+                    docNameClean = "Dr. " + docNameClean;
+                }
+
+                // Update UI
+                document.getElementById('invId').innerText = "INV-" + invoiceId.substring(0, 8).toUpperCase();
+                document.getElementById('invDate').innerText = "Date: " + (data.billingDate || "N/A");
+                document.getElementById('pName').innerText = data.patientName || "Guest Patient";
+                document.getElementById('pMethod').innerText = data.paymentMethod || "Not Specified";
+                document.getElementById('dName').innerText = docNameClean;
+                
+                document.getElementById('rowAmt').innerText = "₹ " + formattedAmt;
+                document.getElementById('subTotal').innerText = "₹ " + formattedAmt;
+                document.getElementById('finalTotal').innerText = "₹ " + formattedAmt;
+
+                // Handle Stamp
+                const status = (data.paymentStatus || "Pending").toUpperCase();
+                const stamp = document.getElementById('statusStamp');
+                stamp.innerText = status;
+                stamp.style.color = status === 'PAID' ? 'var(--success)' : 'var(--warning)';
+                stamp.style.borderColor = status === 'PAID' ? 'var(--success)' : 'var(--warning)';
+            }
+        } catch (err) {
+            console.error("Fetch Error:", err);
+        }
+    }
+
+    window.downloadInvoicePDF = function() {
+        const element = document.getElementById('invoiceArea');
+        const pName = document.getElementById('pName').innerText.replace(/\s+/g, '_');
+        
+        const opt = {
+            margin: 10,
+            filename: `Invoice_${pName}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 3 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    };
+
+    fetchInvoiceData();
+</script>
+
+</body>
+</html>

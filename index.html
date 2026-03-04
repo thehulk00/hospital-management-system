@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>City Hospital Kolhapur | Next-Gen Healthcare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2dd4bf; 
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --accent: #f43f5e; 
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --card-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+      --white: #ffffff;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background:#fcfdfe; color: var(--navy); overflow-x: hidden; scroll-behavior: smooth; }
+
+    /* --- PRO NAVIGATION --- */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      padding: 24px 60px; display: flex; justify-content: space-between; align-items: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    header.scrolled {
+      padding: 14px 60px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    header.hide-header { transform: translateY(-100%); }
+
+    .header-left h1 { 
+      font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -1px; 
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .header-right { display:flex; align-items:center; gap:15px; }
+
+    .emergency {
+      color: #fff; font-weight: 700; font-size: 13px;
+      background: var(--accent); padding: 10px 20px; border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    header button {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 24px; color: #fff; font-weight: 600; border-radius: 12px;
+      cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px);
+    }
+
+    header button:hover { background: var(--primary); color: var(--navy); border-color: var(--primary); }
+
+    /* --- HERO --- */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      display: flex; align-items: center; padding: 0 80px;
+      background-size: cover; background-position: center;
+      transition: background-image 1.5s ease-in-out;
+    }
+
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 20%, rgba(15, 23, 42, 0.3) 100%);
+      z-index: 1;
+    }
+
+    .hero-content { position: relative; z-index: 10; max-width: 700px; color: #fff; }
+    .hero-content .badge { 
+        background: rgba(45, 212, 191, 0.1); color: var(--primary); 
+        padding: 6px 16px; border-radius: 100px; font-size: 12px; 
+        font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+        border: 1px solid rgba(45, 212, 191, 0.3); display: inline-block; margin-bottom: 20px;
+    }
+    .hero-content h2 { font-size: 64px; line-height: 1.1; font-weight: 800; margin-bottom: 25px; letter-spacing: -2px; }
+    .hero-content p { font-size: 19px; color: #94a3b8; line-height: 1.6; margin-bottom: 35px; }
+
+    /* --- FEATURE CARDS --- */
+    section { padding: 120px 60px; }
+    .section-header { text-align: center; max-width: 700px; margin: 0 auto 70px; }
+    .section-header h2 { font-size: 42px; font-weight: 800; color: var(--navy); margin-bottom: 15px; }
+    .section-header p { color: #64748b; font-size: 18px; }
+    
+    .feature-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
+      max-width: 1300px; margin: auto;
+    }
+
+    .feature-card {
+      background: var(--white); padding: 50px 40px; border-radius: 32px;
+      border: 1px solid #f1f5f9; text-decoration: none; color: inherit;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+      position: relative; overflow: hidden;
+    }
+
+    .feature-card::after {
+        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; 
+        background: var(--primary); transform: scaleX(0); transition: 0.3s;
+    }
+
+    .feature-card:hover { 
+      transform: translateY(-10px); border-color: var(--primary);
+      box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.15); 
+    }
+    
+    .feature-card:hover::after { transform: scaleX(1); }
+
+    .feature-card .icon-box {
+        width: 64px; height: 64px; background: #f0fdfa; color: var(--primary);
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 18px; font-size: 24px; margin-bottom: 25px;
+    }
+
+    .feature-card h3 { font-size: 22px; color: var(--navy); margin-bottom: 15px; font-weight: 700; }
+    .feature-card p { color: #64748b; font-size: 15px; line-height: 1.7; }
+
+    /* --- HELP CENTER CTA --- */
+    .help-center { padding-bottom: 100px; display: flex; justify-content: center; }
+    .help-btn {
+      background: var(--navy); color: white; border: none; padding: 40px 80px; border-radius: 35px;
+      cursor: pointer; text-align: center; transition: 0.4s;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2); display: flex; flex-direction: column; align-items: center;
+    }
+    .help-btn:hover { background: #1e293b; transform: scale(1.02); }
+    .help-btn strong { font-size: 24px; margin-bottom: 10px; color: var(--primary); }
+    .help-btn span { opacity: 0.8; font-size: 15px; }
+
+    /* --- MODALS --- */
+    .modal {
+      display:none; position:fixed; inset:0; background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px); justify-content:center; align-items:center; z-index:2000;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal-box {
+      background: #fff; width: 100%; max-width: 440px; padding: 50px; border-radius: 32px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.2); position: relative;
+    }
+    .modal-box h3 { font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 10px; text-align: center; }
+    .modal-box p { text-align: center; color: #64748b; margin-bottom: 30px; font-size: 14px; }
+    
+    .input-group { position: relative; margin-bottom: 15px; }
+    .input-group i { position: absolute; left: 18px; top: 18px; color: #94a3b8; }
+    .modal-box input {
+      width: 100%; padding: 16px 20px 16px 50px;
+      border-radius: 14px; border: 1px solid #e2e8f0; background: #f8fafc;
+      font-size: 15px; outline: none; transition: 0.3s;
+    }
+    .modal-box input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.1); }
+    
+    .modal-box .main-btn {
+      width: 100%; padding: 16px; background: var(--navy); color: #fff;
+      border: none; border-radius: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px;
+    }
+    .modal-box .main-btn:hover { background: var(--primary); color: var(--navy); }
+
+    .doctor-list { list-style: none; }
+    .doctor-list li { 
+        padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; 
+        justify-content: space-between; align-items: center; 
+    }
+    .doctor-list li span { font-weight: 700; color: var(--navy); }
+    .doctor-list li strong { 
+        font-size: 11px; background: #f0fdfa; color: var(--primary); 
+        padding: 4px 10px; border-radius: 6px; text-transform: uppercase;
+    }
+
+    /* --- FOOTER --- */
+    .footer { background: #0b1120; color: #94a3b8; padding: 100px 60px 50px; }
+    .footer-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 80px; }
+    .footer-box h3 { color: #fff; font-size: 20px; margin-bottom: 25px; font-weight: 700; }
+    .footer-box p { font-size: 15px; margin-bottom: 12px; line-height: 1.7; }
+    .footer-box a:hover { color: var(--primary); }
+
+   @media (max-width: 900px) {
+
+  /* Navbar */
+  header {
+    padding: 15px 20px;
+  }
+
+  header.scrolled {
+    padding: 12px 20px;
+  }
+
+  .header-left h1 {
+    font-size: 18px;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  header button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .emergency {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 120px 20px 60px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-content h2 {
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -1px;
+  }
+
+  .hero-content p {
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  /* Stack button + phone vertically */
+  .hero-content > div {
+    flex-direction: column !important;
+    gap: 15px !important;
+    align-items: center !important;
+  }
+
+  .hero-content button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  /* Sections */
+  section {
+    padding: 80px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 28px;
+  }
+
+  .section-header p {
+    font-size: 15px;
+  }
+
+  /* Feature cards */
+  .feature-card {
+    padding: 30px 25px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 70px 20px 40px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+}
+  </style>
+</head>
+
+<body>
+
+<header id="mainNavbar">
+  <div class="header-left">
+    <h1><i class="fas fa-city" style="color: var(--primary);"></i> City Hospital</h1>
+  </div>
+
+  <div class="header-right">
+    <span class="emergency">🚑 ER: 108</span>
+    <button onclick="openDoctors()">Doctors</button>
+    <button onclick="openLogin()"> Login</button>
+  </div>
+</header>
+
+<div class="hero" id="hero">
+  <div class="hero-content">
+    <div class="badge">NABH Accredited Facility</div>
+    <h2>Precision Medicine. Compassionate Care.</h2>
+    <p>City Hospital Kolhapur integrates cutting-edge technology with empathy to provide a healing environment that is available 24/7 for you and your loved ones.</p>
+    <div style="display: flex; gap: 20px; align-items: center;">
+        <button onclick="location.href='appointments.html'" style="padding: 16px 32px; background: var(--primary); border:none; border-radius: 14px; font-weight: 800; color: var(--navy); cursor:pointer;">Book Appointment</button>
+        <span style="font-weight:700; color: #fff;"><i class="fas fa-phone-alt" style="color: var(--primary); margin-right: 10px;"></i> 0231-265-XXXX</span>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="section-header">
+      <h2>Excellence in Every Department</h2>
+      <p>Our hospital is equipped with state-of-the-art diagnostic and surgical infrastructure to ensure the best outcomes.</p>
+  </div>
+  <div class="feature-cards">
+    <a href="appointments.html" class="feature-card">
+      <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+      <h3>Smart Booking</h3>
+      <p>Avoid long queues. Schedule your consultations digitally in less than 60 seconds.</p>
+    </a>
+
+    <a href="doctors.html" class="feature-card">
+      <div class="icon-box"><i class="fas fa-user-md"></i></div>
+      <h3>Specialists</h3>
+      <p>Access top-tier consultants across 25+ specialized medical wings.</p>
+    </a>
+
+    <a href="billing.html" class="feature-card">
+      <div class="icon-box"><i class="fas fa-file-invoice-dollar"></i></div>
+      <h3>Digital Billing</h3>
+      <p>Transparent pricing and paperless insurance claims for a stress-free experience.</p>
+    </a>
+
+    <a href="overview.html" class="feature-card">
+      <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+      <h3>Live Status</h3>
+      <p>Check real-time ICU and general bed availability directly from your phone.</p>
+    </a>
+  </div>
+</section>
+
+<div class="help-center">
+  <button class="help-btn" onclick="location.href='help.html'">
+    <strong>24/7 Support Center</strong>
+    <span>We value your feedback. Contact our patient grievance desk anytime.</span>
+  </button>
+</div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-box">
+      <h3>City Hospital Kolhapur</h3>
+      <p>Shivaji Nagar, Kolhapur, Maharashtra – 416001</p>
+      <p>🕒 24×7 Emergency & Trauma Care</p>
+      <div style="margin-top: 25px; display: flex; gap: 15px; font-size: 18px;">
+          <i class="fab fa-facebook" style="cursor:pointer; color: #fff;"></i>
+          <i class="fab fa-twitter" style="cursor:pointer; color: #fff;"></i>
+          <i class="fab fa-instagram" style="cursor:pointer; color: #fff;"></i>
+          <i class="fab fa-linkedin" style="cursor:pointer; color: #fff;"></i>
+      </div>
+    </div>
+    <div class="footer-box">
+      <h3>Quick Links</h3>
+      <p><a href="doctors.html" style="color:inherit; text-decoration:none">Consultant Directory</a></p>
+      <p><a href="register.html" style="color:inherit; text-decoration:none">New Patient Form</a></p>
+      <p><a href="help.html" style="color:inherit; text-decoration:none">Health Insurance</a></p>
+      <p><a href="billing.html" style="color:inherit; text-decoration:none">Download Reports</a></p>
+    </div>
+    <div class="footer-box">
+      <h3>Contact ER</h3>
+      <p>🚑 Toll Free: <strong>108</strong></p>
+      <p>☎ Reception: +91 231 265 XXXX</p>
+      <p>✉ care@cityhospital.com</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 City Hospital Kolhapur. Secure HMS V2.0. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <h3>Welcome Back</h3>
+    <p>Sign in to manage your medical records</p>
+    
+    <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Email Address">
+    </div>
+    
+    <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button class="main-btn" onclick="login()">Sign In to Portal</button>
+    
+    <div style="text-align:center; margin-top:20px; font-size:14px;">
+        New user? <a href="register.html" style="color: var(--primary); font-weight: 700; text-decoration:none;">Create Patient Account</a>
+    </div>
+    
+    <button class="main-btn" style="background:#f1f5f9; color: var(--navy); margin-top:10px;" onclick="document.getElementById('loginModal').style.display='none'">Cancel</button>
+  </div>
+</div>
+
+<div class="modal" id="doctorsModal">
+  <div class="modal-box">
+    <h3>Expert Directory</h3>
+    <p>Our available consultants for today</p>
+    <ul class="doctor-list">
+      <li><span>Dr. Rahul Sharma</span> <strong>Cardiology</strong></li>
+      <li><span>Dr. Rakesh Kumar</span> <strong>Neurology</strong></li>
+      <li><span>Dr. Neha Singh</span> <strong>Gynecology</strong></li>
+      <li><span>Dr. Amit Verma</span> <strong>Orthopedics</strong></li>
+      <li><span>Dr. Pooja Mehta</span> <strong>Dermatology</strong></li>
+    </ul>
+    <button class="main-btn" style="background:#f1f5f9; color: var(--navy); margin-top:20px;" onclick="closeDoctors()">Back to Home</button>
+  </div>
+</div>
+
+<script>
+  function openLogin(){ document.getElementById("loginModal").style.display="flex"; }
+  window.onclick = function(e){
+    const m = document.getElementById("loginModal");
+    if(e.target === m) m.style.display="none";
+  }
+
+  function openDoctors(){ document.getElementById("doctorsModal").style.display="flex"; }
+  function closeDoctors(){ document.getElementById("doctorsModal").style.display="none"; }
+</script>
+
+<script type="module" src="./js/auth.js"></script>
+
+<script>
+  // Hero Background Logic
+  const hero = document.getElementById("hero");
+  const images = ["images/hospital1.jpg", "images/hospital2.jpg", "images/hospital3.jpg", "images/hospital4.jpg"];
+  let index = 0;
+  function changeHeroBackground(){
+    hero.style.backgroundImage = `url('${images[index]}')`;
+    index = (index + 1) % images.length;
+  }
+  changeHeroBackground();
+  setInterval(changeHeroBackground, 5000);
+
+  // Smart Header Logic
+  let lastScrollY = window.scrollY;
+  const header = document.getElementById("mainNavbar");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) header.classList.add("scrolled");
+    else header.classList.remove("scrolled");
+
+    if (window.scrollY > lastScrollY && window.scrollY > 150) header.classList.add("hide-header");
+    else header.classList.remove("hide-header");
+    lastScrollY = window.scrollY;
+  });
+</script>
+
+</body>
+</html>

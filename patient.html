@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard | HMS PRO</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg-main: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* Modern Navbar */
+    .navbar {
+      background: #0f172a;
+      padding: 1rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.025em;
+    }
+
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 0 24px;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      margin-bottom: 48px;
+    }
+
+    /* Card Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 30px;
+      text-decoration: none;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary);
+      box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card span {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-top: 20px;
+    }
+
+    .icon-box {
+      width: 80px;
+      height: 80px;
+      background: #f1f5f9;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover .icon-box {
+      background: var(--primary);
+      color: #fff;
+      transform: rotate(-5deg);
+    }
+
+    /* Tablet/Mobile Adjustments */
+    @media (max-width: 768px) {
+      .navbar { padding: 1rem 2rem; }
+      .container { margin: 30px auto; }
+      h1 { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo"><i class="fas fa-hospital-alt"></i> HMS PRO</div>
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </header>
+
+  <main class="container">
+    <h1>Patient Dashboard</h1>
+    <p class="subtitle">Welcome back. Select a service to continue.</p>
+
+    <div class="card-grid">
+      <a href="forms/appointment_form.html" class="card">
+        <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+        <span>Book Appointment</span>
+      </a>
+
+      <a href="forms/my_appointments.html" class="card">
+        <div class="icon-box"><i class="fas fa-file-medical"></i></div>
+        <span>My Appointments</span>
+      </a>
+
+      <a href="patient_history_user.html" class="card">
+        <div class="icon-box"><i class="fas fa-history"></i></div>
+        <span>Medical History</span>
+      </a>
+
+      <a href="forms/profile.html" class="card">
+        <div class="icon-box"><i class="fas fa-user-circle"></i></div>
+        <span>My Profile</span>
+      </a>
+    </div>
+  </main>
+
+  <script type="module" src="js/auth.js"></script>
+  
+</body>
+</html>

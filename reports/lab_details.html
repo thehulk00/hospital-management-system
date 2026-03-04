@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab Result | HMS PRO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --primary: #0d9488; --bg: #f1f5f9; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); padding: 40px; display: flex; justify-content: center; }
+    .card { background: white; width: 100%; max-width: 700px; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .header { border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; margin-bottom: 20px; }
+    .result-box { background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 200px; margin-top: 20px; position: relative; }
+    .result-box::before { content: "Diagnostic Findings"; position: absolute; top: -10px; left: 20px; background: white; padding: 0 10px; font-size: 11px; font-weight: 800; color: var(--primary); }
+    .btn-group { display: flex; gap: 12px; margin-top: 30px; }
+    .btn { padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .btn-back { background: #64748b; color: white; }
+    .btn-print { background: var(--primary); color: white; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <h2 id="pName" style="margin:0; color:var(--primary);">Loading...</h2>
+    <p style="margin:5px 0; color:#64748b;"><b>Tests:</b> <span id="vTests">--</span></p>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 20px;">
+    <span><b>Referrer:</b> <span id="dName">--</span></span>
+    <span><b>Date:</b> <span id="rDate">--</span></span>
+  </div>
+
+  <div class="result-box">
+    <div id="vResults" style="white-space: pre-wrap; line-height: 1.6;">Loading findings...</div>
+  </div>
+
+  <div class="btn-group">
+    <button onclick="window.print()" class="btn btn-print"><i class="fas fa-print"></i> Print Result Slip</button>
+    <a href="lab_report_summary.html" class="btn btn-back">Back to Summary</a>
+  </div>
+</div>
+
+<script type="module">
+  import { db } from "../js/firebase.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const params = new URLSearchParams(window.location.search);
+  const docId = params.get('id');
+
+  async function loadLabResult() {
+    if (!docId) return;
+    const snap = await getDoc(doc(db, "lab_reports", docId));
+    if (snap.exists()) {
+      const data = snap.data();
+      document.getElementById('pName').innerText = data.patientName;
+      document.getElementById('vTests').innerText = data.tests;
+      document.getElementById('dName').innerText = data.doctorName;
+      document.getElementById('rDate').innerText = data.reportDate;
+      // Note: Make sure your Lab entry form uses 'results' as the field name
+      document.getElementById('vResults').innerText = data.results || "No detailed findings recorded.";
+    }
+  }
+  loadLabResult();
+</script>
+</body>
+</html>

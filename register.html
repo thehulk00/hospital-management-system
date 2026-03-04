@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patient Registration | City Hospital Kolhapur</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2dd4bf;
+      --navy-dark: #0f172a;
+      --glass: rgba(255, 255, 255, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      /* Matching your Login page's deep radial background */
+      background: radial-gradient(circle at center, #1e293b, #0f172a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .register-card {
+      background: var(--glass);
+      width: 100%;
+      max-width: 420px;
+      padding: 50px 40px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Subtle glow effect at the top */
+    .register-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 100px;
+      background: var(--primary);
+      filter: blur(60px);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 0;
+      color: var(--navy-dark);
+      font-weight: 800;
+      font-size: 26px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #64748b;
+      margin: 10px 0 35px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      margin-left: 5px;
+      color: var(--navy-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 16px 16px 52px;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.3s ease;
+      color: var(--navy-dark);
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      background: var(--navy-dark);
+      color: #ffffff;
+      border: none;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button:hover {
+      background: var(--primary);
+      color: var(--navy-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(45, 212, 191, 0.3);
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
+      color: #64748b;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="register-card">
+    <div class="logo">
+      <i class="fas fa-city" style="color: var(--primary);"></i> City Hospital
+    </div>
+
+    <h2>Create Account</h2>
+    <p class="subtitle">Join our patient portal for 24/7 access</p>
+
+    <label for="email">Email Address</label>
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" id="email" placeholder="name@example.com" />
+    </div>
+
+    <label for="password">Security Password</label>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="password" placeholder="Create a strong password" />
+    </div>
+
+    <button id="registerBtn" type="button">
+      Complete Registration <i class="fas fa-user-plus"></i>
+    </button>
+
+    <a href="index.html" class="back-link">
+      <i class="fas fa-arrow-left" style="font-size: 12px; margin-right: 5px;"></i> 
+      Back to Login
+    </a>
+
+  </div>
+
+  <script type="module" src="./js/register.js"></script>
+</body>
+</html>

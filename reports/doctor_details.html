@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Profile | HMS PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #4f46e5; --bg: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); padding: 40px; }
+        .profile-card { background: white; max-width: 800px; margin: auto; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .profile-header { display: flex; align-items: center; gap: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; margin-bottom: 30px; }
+        .avatar-circle { width: 80px; height: 80px; background: #eef2ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .label { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 800; letter-spacing: 1px; }
+        .value { font-size: 18px; color: #1e293b; font-weight: 600; margin-top: 5px; }
+        .btn-back { display: inline-block; margin-top: 40px; color: #64748b; text-decoration: none; font-weight: 600; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="profile-card">
+    <div class="profile-header">
+        <div class="avatar-circle" id="initials">??</div>
+        <div>
+            <h1 id="drName" style="margin:0; font-size:24px; color:#1e293b;">Loading...</h1>
+            <p id="drSpecialty" style="margin:5px 0 0; color:var(--primary); font-weight:600;">General Physician</p>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div>
+            <div class="label">Primary Phone</div>
+            <div id="drPhone" class="value">--</div>
+        </div>
+        <div>
+            <div class="label">Department</div>
+            <div id="drDept" class="value">Outpatient (OPD)</div>
+        </div>
+        <div>
+            <div class="label">Date Joined</div>
+            <div id="drJoin" class="value">--</div>
+        </div>
+        <div>
+            <div class="label">Status</div>
+            <div class="value" style="color:#059669;">Active Duty</div>
+        </div>
+    </div>
+
+    <a href="doctor_performance.html" class="btn-back">← Back to Performance Report</a>
+</div>
+
+<script type="module">
+    import { db } from "../js/firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const params = new URLSearchParams(window.location.search);
+    const drId = params.get('id');
+
+    async function loadProfile() {
+        if (!drId) return;
+        const snap = await getDoc(doc(db, "doctors", drId));
+        if (snap.exists()) {
+            const data = snap.data();
+            const name = data.name || "Doctor";
+            document.getElementById('drName').innerText = name.startsWith("Dr.") ? name : "Dr. " + name;
+            document.getElementById('initials').innerText = name.charAt(0).toUpperCase();
+            document.getElementById('drPhone').innerText = data.phone || "Not Provided";
+            document.getElementById('drSpecialty').innerText = data.specialty || "Medical Practitioner";
+            document.getElementById('drJoin').innerText = data.joinDate || "2026 Record";
+        }
+    }
+    loadProfile();
+</script>
+</body>
+</html>

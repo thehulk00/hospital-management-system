@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile | HMS PRO</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 40px auto; }
+
+        /* Header Navigation */
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .btn-back:hover { color: var(--primary); }
+
+        /* Profile Card */
+        .profile-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 40px;
+        }
+
+        .avatar-box {
+            width: 140px;
+            height: 140px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            font-weight: 800;
+            border: 1px solid #dbeafe;
+        }
+
+        .profile-info h1 { margin: 0; font-size: 32px; letter-spacing: -1px; }
+        .patient-id { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item p { margin: 0; font-weight: 600; color: var(--text-main); font-size: 15px; }
+
+        /* Content Sections */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 40px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            line-height: 1.6;
+        }
+
+        .print-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        @media print {
+            .nav-header, .print-btn { display: none; }
+            body { padding: 0; background: white; }
+            .profile-card { box-shadow: none; border: 1px solid #eee; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-header">
+        <a href="javascript:history.back()" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Previous Page
+        </a>
+        <button class="print-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> Print Medical Chart
+        </button>
+    </div>
+
+    <div class="profile-card">
+        <div class="avatar-box" id="initials">?</div>
+        <div class="profile-info">
+            <h1 id="pName">Loading Patient...</h1>
+            <div class="patient-id" id="pID">Patient ID: Loading...</div>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Attending Doctor</label>
+                    <p id="dName" style="color: var(--primary);">--</p>
+                </div>
+                <div class="info-item">
+                    <label>Department</label>
+                    <p id="pDept">--</p>
+                </div>
+                <div class="info-item">
+                    <label>Visit Date</label>
+                    <p id="pDate">--</p>
+                </div>
+            </div>
+            
+            <div class="contact-info" id="contactInfo">
+                <!-- Contact info will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <h3 class="section-title"><i class="fas fa-stethoscope"></i> Clinical Diagnosis</h3>
+    <div class="detail-card">
+        <p id="pDiagnosis" style="font-size: 18px; font-weight: 600; color: #1e293b; margin: 0;">--</p>
+    </div>
+
+    <h3 class="section-title"><i class="fas fa-pills"></i> Treatment & Advice</h3>
+    <div class="detail-card">
+        <div style="margin-bottom: 20px;">
+            <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Prescribed Treatment</label>
+            <p id="pTreatment" style="margin-top: 5px;">--</p>
+        </div>
+        <div>
+            <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Medical Advice</label>
+            <p id="pAdvice" style="margin-top: 5px; font-style: italic;">--</p>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { db } from "./js/firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const params = new URLSearchParams(window.location.search);
+    const docId = params.get('id');
+    
+    console.log("Looking for patient ID:", docId);
+
+    function cleanName(name) {
+        if (!name) return "Not Assigned";
+        if (name.startsWith("Dr.")) return name;
+        return "Dr. " + name.replace(/dr\.?\s*/gi, "").trim();
+    }
+
+    function formatDate(dateValue) {
+        if (!dateValue) return "Not scheduled";
+        if (dateValue.toDate) {
+            // Handle Firestore timestamp
+            return dateValue.toDate().toLocaleDateString();
+        }
+        return dateValue;
+    }
+
+    async function fetchPatient() {
+        if (!docId) {
+            document.getElementById("pName").innerText = "No ID Provided";
+            document.getElementById("pID").innerText = "Error: No patient ID in URL";
+            return;
+        }
+
+        try {
+            // Try patients collection first (where patient.js saves)
+            const patientRef = doc(db, "patients", docId);
+            let snap = await getDoc(patientRef);
+            let source = "patients";
+            let found = snap.exists();
+
+            // If not in patients, try appointments
+            if (!found) {
+                const appointmentRef = doc(db, "appointments", docId);
+                snap = await getDoc(appointmentRef);
+                source = "appointments";
+                found = snap.exists();
+            }
+            
+            // If not in appointments, try discharge_summaries
+            if (!found) {
+                const dischargeRef = doc(db, "discharge_summaries", docId);
+                snap = await getDoc(dischargeRef);
+                source = "discharge_summaries";
+                found = snap.exists();
+            }
+
+            if (found) {
+                const data = snap.data();
+                console.log(`✅ Found in ${source}:`, data);
+                
+                // Map fields based on source collection
+                let patientName, doctorName, department, visitDate, diagnosis, treatment, advice, email, phone, age, gender;
+                
+                if (source === "patients") {
+                    // Data from patient registration form
+                    patientName = data.name || "Unknown";
+                    email = data.email || "No email";
+                    phone = data.phone || "No phone";
+                    gender = data.gender || "Not specified";
+                    age = data.age || "Not specified";
+                    doctorName = "Not assigned yet";
+                    department = "Outpatient";
+                    visitDate = "Not scheduled";
+                    diagnosis = "Pending initial consultation";
+                    treatment = "Not prescribed";
+                    advice = "Complete registration first";
+                } else {
+                    // Data from appointments or discharge
+                    patientName = data.patientName || "Unknown";
+                    doctorName = data.doctorName || "Not Assigned";
+                    department = data.department || "General Medicine";
+                    visitDate = formatDate(data.date || data.dischargeDate);
+                    diagnosis = data.diagnosis || "No diagnosis recorded";
+                    treatment = data.treatment || "Routine care";
+                    advice = data.advice || "No advice provided";
+                    email = data.email || "No email";
+                    phone = data.phone || "No phone";
+                }
+
+                // Update UI
+                document.getElementById("pName").innerText = patientName;
+                document.getElementById("initials").innerText = patientName.charAt(0).toUpperCase();
+                document.getElementById("pID").innerHTML = `Patient ID: ${docId}<br><small style="color:#2563eb;">${source}</small>`;
+                document.getElementById("dName").innerText = cleanName(doctorName);
+                document.getElementById("pDept").innerText = department;
+                document.getElementById("pDate").innerText = visitDate;
+                document.getElementById("pDiagnosis").innerText = diagnosis;
+                document.getElementById("pTreatment").innerText = treatment;
+                document.getElementById("pAdvice").innerText = advice;
+                
+                // Add contact info
+                const contactDiv = document.getElementById("contactInfo");
+                contactDiv.innerHTML = `
+                    <div class="contact-item"><i class="fas fa-envelope"></i> ${email}</div>
+                    <div class="contact-item"><i class="fas fa-phone"></i> ${phone}</div>
+                    ${gender ? `<div class="contact-item"><i class="fas fa-venus-mars"></i> ${gender}</div>` : ''}
+                    ${age ? `<div class="contact-item"><i class="fas fa-calendar"></i> Age: ${age}</div>` : ''}
+                `;
+                
+                document.title = `${patientName} | Patient Profile | HMS PRO`;
+            } else {
+                console.error("❌ Patient not found in any collection");
+                document.getElementById("pName").innerText = "Patient Not Found";
+                document.getElementById("pID").innerHTML = `
+                    ID: ${docId} not found<br>
+                    <small style="color:#ef4444;">Check if ID is correct</small>
+                `;
+            }
+        } catch (err) {
+            console.error("❌ Error:", err);
+            document.getElementById("pName").innerText = "Error Loading";
+            document.getElementById("pID").innerText = err.message;
+        }
+    }
+
+    fetchPatient();
+    
+    // Debug helper
+    window.retryLoad = fetchPatient;
+    console.log("ℹ️ Type 'retryLoad()' in console to retry loading");
+</script>
+</body>
+</html>

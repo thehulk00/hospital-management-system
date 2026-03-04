@@ -1,0 +1,311 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+/* TOP BAR */
+.topbar {
+  background: #0f3c68;
+  color: white;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: #ef4444;
+  border: none;
+  padding: 10px 18px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* CONTENT */
+.container {
+  padding: 40px;
+}
+
+h1 {
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* GRID */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 500;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  background: #f9fafb;
+}
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+/* Page background */
+.login-page {
+  height: 100vh;
+  background: linear-gradient(135deg, #0f3c68, #1e5fa3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card container */
+.login-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Login card */
+.login-card {
+  background: #ffffff;
+  width: 380px;
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+/* Title */
+.login-card h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: #0f3c68;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.login-card input {
+  width: 100%;
+  padding: 13px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Button */
+.login-card button {
+  width: 100%;
+  padding: 13px;
+  background: #0f3c68;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-card button:hover {
+  background: #0c3054;
+}
+
+/* Register link */
+.register-link {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+/* Professional Clinical Theme */
+:root {
+  --sidebar-bg: #1e293b; /* Dark Slate */
+  --sidebar-text: #f8fafc;
+  --nav-hover: #334155;
+  --accent-blue: #0284c7;
+  --bg-main: #f1f5f9;
+  --border-color: #cbd5e1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-main);
+  color: #334155;
+}
+
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding: 20px 0;
+  flex-shrink: 0;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0 20px 30px;
+  border-bottom: 1px solid var(--nav-hover);
+  margin-bottom: 20px;
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.nav-menu a {
+  display: block;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.nav-menu a:hover {
+  background-color: var(--nav-hover);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.page-title h1 {
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.page-title span {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.logout-btn {
+  background: #be123c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #9f1239;
+}
+
+.stats-overview {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  color: #64748b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-wrapper { flex-direction: column; }
+  .sidebar { width: 100%; }
+}
+.nav-menu a{
+  display:block;
+  padding:12px 18px;
+  color:#e5e7eb;
+  text-decoration:none;
+  border-radius:8px;
+  transition:all 0.3s ease;
+  font-weight:500;
+}
+
+.nav-menu a:hover{
+  background:#1e293b;
+  color:#ffffff;
+}
+
+/* Special highlight for Today's Appointments */
+.highlight-link{
+  background:#1d4ed8;
+  color:#ffffff !important;
+}
+
+.highlight-link:hover{
+  background:#2563eb;
+}

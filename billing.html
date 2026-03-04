@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab & Billing | HMS PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --navy: #0f172a;
+      --bg-main: #f8fafc;
+      --success: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg-main); color: #1e293b; line-height: 1.6; }
+
+    /* --- NAVBAR --- */
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h3 { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; }
+    header a { color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; opacity: 0.8; transition: 0.3s; }
+    header a:hover { opacity: 1; }
+
+    /* --- HERO --- */
+    .billing-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 100px 20px;
+      text-align: center;
+    }
+    .billing-hero h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 15px; }
+    .billing-hero p { opacity: 0.7; max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+    /* --- CONTENT --- */
+    .container {
+      max-width: 900px;
+      margin: -60px auto 80px;
+      padding: 0 20px;
+    }
+
+    .page-card {
+      background: #fff;
+      padding: 50px;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .security-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .secure-item {
+      background: #f8fafc;
+      padding: 25px;
+      border-radius: 20px;
+      border: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: 0.3s;
+    }
+
+    .secure-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-5px);
+      background: #fff;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+    }
+
+    .secure-item i {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .secure-item span {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    /* --- DATABASE BADGE --- */
+    .db-badge {
+      margin-top: 40px;
+      padding: 20px;
+      background: #eef2ff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .security-grid { grid-template-columns: 1fr; }
+      .page-card { padding: 30px; }
+      .billing-hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h3><i class="fas fa-file-invoice-dollar"></i> HMS PRO BILLING</h3>
+  <a href="index.html"><i class="fas fa-chevron-left"></i> Return Home</a>
+</header>
+
+<section class="billing-hero">
+    <h1>Financial Integrity</h1>
+    <p>Ensuring transparency and military-grade security for your medical billing and laboratory data.</p>
+</section>
+
+<div class="container">
+  <div class="page-card">
+    <h2 style="font-weight: 800; margin-bottom: 25px; letter-spacing: -0.5px;">Data & Privacy Standards</h2>
+    
+    <div class="security-grid">
+      <div class="secure-item">
+        <i class="fas fa-shield-virus"></i>
+        <span>Firebase Security</span>
+        <p style="font-size: 0.9rem; color: #64748b;">Cloud-hosted secure infrastructure with real-time encryption.</p>
+      </div>
+
+      <div class="secure-item">
+        <i class="fas fa-flask"></i>
+        <span>Digital Lab Reports</span>
+        <p style="font-size: 0.9rem; color: #64748b;">Controlled access ensures reports only reach verified patients.</p>
+      </div>
+
+      <div class="secure-item">
+        <i class="fas fa-credit-card"></i>
+        <span>Encrypted Billing</span>
+        <p style="font-size: 0.9rem; color: #64748b;">End-to-end encryption for all financial records and receipts.</p>
+      </div>
+
+      <div class="secure-item">
+        <i class="fas fa-history"></i>
+        <span>Patient Ledger</span>
+        <p style="font-size: 0.9rem; color: #64748b;">Immutable transaction history for easy audits and insurance claims.</p>
+      </div>
+    </div>
+
+    <div class="db-badge">
+      <i class="fas fa-database"></i>
+      Powered by Google Firebase™ Secure Infrastructure
+    </div>
+
+    <p style="margin-top: 35px; font-size: 0.95rem; color: #475569; text-align: center;">
+      Our system is built to maintain <strong>100% confidentiality</strong>. All payment records are processed through secure gateways, ensuring your peace of mind.
+    </p>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 City Hospital Kolhapur | Secured Information Systems
+</footer>
+
+</body>
+</html>

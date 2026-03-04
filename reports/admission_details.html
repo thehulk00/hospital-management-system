@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admission Details | HMS PRO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --primary: #2563eb; --bg: #f8fafc; --card-bg: #ffffff; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); padding: 40px; display: flex; justify-content: center; }
+    
+    /* Main Card */
+    .detail-card { background: white; width: 100%; max-width: 700px; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    h2 { margin: 0 0 20px 0; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+
+    /* Grid Layout */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+    .label { font-size: 11px; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .value { font-size: 16px; color: #1e293b; margin-top: 5px; font-weight: 600; }
+
+    /* Highlights */
+    .location-box { background: #eff6ff; padding: 20px; border-radius: 12px; border: 1px solid #dbeafe; display: flex; gap: 40px; margin-bottom: 30px; }
+    .reason-box { background: #f8fafc; padding: 25px; border-radius: 12px; border-left: 4px solid var(--primary); }
+    
+    /* Buttons */
+    .action-group { display: flex; gap: 12px; margin-top: 35px; }
+    .btn { padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 14px; }
+    .btn-print { background: var(--primary); color: white; }
+    .btn-back { background: #f1f5f9; color: #64748b; }
+
+    /* Modal */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+    .modal-content { background: white; margin: 2% auto; padding: 40px; border-radius: 16px; width: 90%; max-width: 750px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+    .btn-save { background: #059669; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="detail-card">
+  <h2><i class="fas fa-file-medical-alt" style="color:var(--primary)"></i> Admission Details</h2>
+  
+  <div class="info-grid">
+    <div>
+      <div class="label">Patient Name</div>
+      <div id="pName" class="value">Loading...</div>
+    </div>
+    <div>
+      <div class="label">Admission Date</div>
+      <div id="aDate" class="value">Loading...</div>
+    </div>
+    <div>
+      <div class="label">Consulting Doctor</div>
+      <div id="dName" class="value">Loading...</div>
+    </div>
+    <div>
+      <div class="label">Status</div>
+      <div id="aStatus" class="value" style="color:#059669">Active</div>
+    </div>
+  </div>
+
+  <div class="label" style="margin-bottom:10px;">Assigned Location</div>
+  <div class="location-box">
+    <div>
+      <div class="label" style="color:#3b82f6;">Ward</div>
+      <div id="vWard" class="value">--</div>
+    </div>
+    <div>
+      <div class="label" style="color:#3b82f6;">Bed Number</div>
+      <div id="vBed" class="value">--</div>
+    </div>
+  </div>
+
+  <div class="label" style="margin-bottom:10px;">Reason for Admission / Diagnosis</div>
+  <div class="reason-box">
+    <div id="vReason" style="white-space: pre-wrap; line-height: 1.6; color: #334155;">Loading history...</div>
+  </div>
+
+  <div class="action-group">
+    <button onclick="showAdmissionSlip()" class="btn btn-print"><i class="fas fa-print"></i> View & Print Slip</button>
+    <a href="admission_report.html" class="btn btn-back">Back to List</a>
+  </div>
+</div>
+
+<div id="previewModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="margin:0;">Inpatient Admission Slip</h3>
+      <div style="display:flex; gap:10px;">
+        <button onclick="downloadAdmissionPDF()" class="btn btn-save">Confirm & Print</button>
+        <button onclick="closeModal()" class="btn" style="background:#ef4444; color:white;">Close</button>
+      </div>
+    </div>
+    <div id="printArea" style="padding: 30px; border: 1px solid #000; border-radius: 4px;">
+      </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script type="module">
+  import { db } from "../js/firebase.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const params = new URLSearchParams(window.location.search);
+  const docId = params.get('id');
+
+  async function fetchAdmissionData() {
+    if (!docId) return;
+    const snap = await getDoc(doc(db, "admissions", docId));
+    
+    if (snap.exists()) {
+      const data = snap.data();
+      
+      // Dr. Fix
+      let rawDoc = data.doctorName || "N/A";
+      let cleanDoc = rawDoc.toLowerCase().startsWith("dr.") ? rawDoc : `Dr. ${rawDoc}`;
+
+      document.getElementById('pName').innerText = data.patientName || "-";
+      document.getElementById('aDate').innerText = data.admissionDate || "-";
+      document.getElementById('dName').innerText = cleanDoc;
+      document.getElementById('vWard').innerText = data.ward || "-";
+      document.getElementById('vBed').innerText = data.bedNumber || "-";
+      document.getElementById('vReason').innerText = data.reason || data.diagnosis || "Initial evaluation pending.";
+    }
+  }
+
+  window.showAdmissionSlip = function() {
+    const pName = document.getElementById('pName').innerText;
+    const aDate = document.getElementById('aDate').innerText;
+    const dName = document.getElementById('dName').innerText;
+    const ward = document.getElementById('vWard').innerText;
+    const bed = document.getElementById('vBed').innerText;
+    const reason = document.getElementById('vReason').innerText;
+
+    document.getElementById('printArea').innerHTML = `
+      <div style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px; margin-bottom:20px;">
+        <h2 style="margin:0;">CITY HOSPITAL - ADMISSION SLIP</h2>
+        <p style="margin:5px 0 0; font-size:12px;">IPD NO: ${docId.substring(0,8).toUpperCase()}</p>
+      </div>
+      <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+        <tr>
+          <td style="padding:5px;"><strong>Patient Name:</strong> ${pName}</td>
+          <td style="padding:5px;" align="right"><strong>Adm. Date:</strong> ${aDate}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px;"><strong>Consultant:</strong> ${dName}</td>
+          <td style="padding:5px;" align="right"><strong>Ward/Bed:</strong> ${ward} / ${bed}</td>
+        </tr>
+      </table>
+      <div style="border:1px solid #000; padding:15px; min-height:180px;">
+        <strong>Admitting Diagnosis / Reason:</strong><br><br>
+        ${reason}
+      </div>
+      <div style="margin-top:40px; display:flex; justify-content:space-between;">
+        <div style="text-align:center;">
+          <p>_________________</p>
+          <p style="font-size:10px;">Guardian Signature</p>
+        </div>
+        <div style="text-align:center;">
+          <p>_________________</p>
+          <p style="font-size:10px;">Medical Officer</p>
+        </div>
+      </div>
+    `;
+    document.getElementById('previewModal').style.display = "block";
+  }
+
+  window.downloadAdmissionPDF = function() {
+    const element = document.getElementById('printArea');
+    const pName = document.getElementById('pName').innerText;
+    html2pdf().set({
+      margin: 15,
+      filename: `Admission_Slip_${pName}.pdf`,
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(element).save().then(() => closeModal());
+  }
+
+  window.closeModal = () => document.getElementById('previewModal').style.display = "none";
+
+  fetchAdmissionData();
+</script>
+</body>
+</html>

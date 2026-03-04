@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appointments | HMS PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --navy: #0f172a;
+      --bg-main: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* --- MODERN NAVBAR --- */
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    header a:hover { color: #fff; }
+
+    /* --- HERO SECTION --- */
+    .appointment-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .appointment-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      letter-spacing: -1.5px;
+    }
+
+    .appointment-hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
+    /* --- MAIN CONTENT CARD --- */
+    .container {
+      max-width: 900px;
+      margin: -60px auto 60px;
+      padding: 0 20px;
+    }
+
+    .page-card {
+      background: #ffffff;
+      padding: 60px;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .section-info {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-info p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+    }
+
+    /* --- ANIMATED STEPS --- */
+    .steps {
+      display: grid;
+      gap: 20px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      background: #fdfdfd;
+      padding: 24px 30px;
+      border: 1px solid #f1f5f9;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .step:hover {
+      transform: translateX(10px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.05);
+    }
+
+    .step-num {
+      width: 45px;
+      height: 45px;
+      background: #eef2ff;
+      color: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-right: 25px;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--navy);
+    }
+
+    /* --- CTA BUTTON --- */
+    .cta-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .cta-btn {
+        background: var(--primary);
+        color: white;
+        padding: 18px 40px;
+        border-radius: 16px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.3s;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    .cta-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: #f1f5f9;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        header { padding: 1rem 1.5rem; }
+        .page-card { padding: 30px; }
+        .appointment-hero h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h3><i class="fas fa-hospital-alt"></i> CITY HOSPITAL</h3>
+  <a href="index.html"><i class="fas fa-home"></i> Back to Home</a>
+</header>
+
+<section class="appointment-hero">
+    <h1>Smart Appointments</h1>
+    <p>Efficient, paperless, and real-time. Manage your health journey with the City Hospital HMS PRO platform.</p>
+</section>
+
+<div class="container">
+  <div class="page-card">
+    <div class="section-info">
+        <p>Our digital appointment system ensures that you spend less time in waiting rooms and more time getting the care you deserve.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-text">Quick Patient Registration via Secure Portal</div>
+      </div>
+      
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-text">Access Your Verified Personal Dashboard</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-text">Browse Specialized Departments & Medical Experts</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-text">Instantly Book Your Preferred Time Slot</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-text">Track Live Status and Digital Prescriptions</div>
+      </div>
+    </div>
+
+    <div class="cta-container">
+        <a href="index.html" class="cta-btn">
+            Get Started Now <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 City Hospital Kolhapur | Secured HMS Infrastructure
+</footer>
+
+</body>
+</html>

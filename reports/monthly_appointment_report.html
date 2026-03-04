@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Appointment Report | HMS PRO</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        :root { --primary: #f59e0b; --bg: #f1f5f9; --text: #1e293b; --muted: #64748b; --white: #ffffff; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header-info h1 { font-size: 26px; font-weight: 800; margin: 0; color: var(--primary); letter-spacing: -1px; }
+        .header-info p { color: var(--muted); margin-top: 5px; font-size: 14px; }
+
+        .btn-group { display: flex; gap: 12px; }
+        .btn { padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; text-decoration: none; border: none; }
+        .btn-back { background: var(--white); color: var(--text); border: 1px solid #e2e8f0; }
+        .btn-pdf { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
+        .btn-pdf:hover { transform: translateY(-1px); background: #d97706; }
+
+        .card { background: var(--white); border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #fffbeb; padding: 18px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #92400e; border-bottom: 1px solid #fde68a; text-align: left; }
+        td { padding: 18px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
+        
+        /* Hyperlink Style */
+        .month-link { color: var(--primary); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .month-link:hover { color: #d97706; text-decoration: underline; }
+        
+        .success-pill { padding: 5px 12px; border-radius: 8px; font-size: 12px; background: #dcfce7; color: #166534; font-weight: 700; border: 1px solid #bbf7d0; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); }
+        .modal-content { background: white; margin: 5% auto; padding: 35px; border-radius: 24px; width: 90%; max-width: 800px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-info">
+            <h1>📅 Monthly Performance</h1>
+            <p id="currentDate">Generating insights...</p>
+        </div>
+        <div class="btn-group">
+            <a href="../staff.html" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Staff</a>
+            <button onclick="openPreview()" class="btn btn-pdf"><i class="fas fa-chart-line"></i> View Insights</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <table id="monthlyReportTable">
+            <thead>
+                <tr>
+                    <th>Reporting Month</th>
+                    <th>Total Bookings</th>
+                    <th>Completed</th>
+                    <th>Success Rate</th>
+                </tr>
+            </thead>
+            <tbody id="monthlyTable">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="previewModal" class="modal">
+    <div class="modal-content">
+        <div id="previewArea"></div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+            <button class="btn btn-pdf" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+            <button class="btn btn-back" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../js/monthly_report.js"></script>
+<script>
+    document.getElementById('currentDate').innerText = `Report generated for year ${new Date().getFullYear()}`;
+    window.closeModal = function() { document.getElementById('previewModal').style.display='none'; }
+</script>
+</body>
+</html>

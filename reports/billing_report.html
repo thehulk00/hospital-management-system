@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Report | HMS PRO</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b; --border: #e2e8f0; --success: #059669; --warning: #d97706; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+
+        .report-header { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 1.2rem 2rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin: 0 auto 2rem; max-width: 1200px; }
+        .header-title { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 12px; }
+
+        .btn-group { display: flex; gap: 12px; }
+        .btn { padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; font-size: 14px; }
+        .back-btn { background-color: #f1f5f9; color: #64748b; }
+        .export-btn { background-color: var(--primary); color: white; }
+
+        .report-card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); max-width: 1200px; margin: auto; border: 1px solid var(--border); overflow: hidden; }
+        .card-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); background: #fcfdfe; display: flex; justify-content: space-between; }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f8fafc; color: #64748b; font-weight: 700; padding: 14px 15px; text-transform: uppercase; font-size: 11px; border-bottom: 2px solid var(--border); }
+        td { padding: 16px 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
+
+        /* Hyperlink Style */
+        .patient-link { color: var(--primary); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .patient-link:hover { text-decoration: underline; }
+
+        .amount-cell { font-weight: 700; }
+        .status-paid { color: var(--success); font-weight: 700; background: #ecfdf5; padding: 4px 8px; border-radius: 6px; }
+        .status-pending { color: var(--warning); font-weight: 700; background: #fffbeb; padding: 4px 8px; border-radius: 6px; }
+
+        /* Modal for Preview */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+        .modal-content { background: white; margin: 2% auto; padding: 30px; border-radius: 16px; width: 90%; max-width: 1000px; max-height: 90vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+<header class="report-header">
+    <div class="header-title"><i class="fas fa-file-invoice-dollar"></i> Billing Report</div>
+    <div class="btn-group">
+        <a href="../staff.html" class="btn back-btn">← Back</a>
+        <button onclick="showBillingPreview()" class="btn export-btn"><i class="fas fa-eye" style="margin-right:8px"></i> Preview & Export</button>
+    </div>
+</header>
+<div class="filter-bar" style="display: flex; gap: 10px; margin: 0 auto 1.5rem; max-width: 1200px; overflow-x: auto; padding-bottom: 5px;">
+    <button class="filter-pill active" onclick="updateFilter('all', this)">All Transactions</button>
+    <button class="filter-pill" onclick="updateFilter('week', this)">Last 7 Days</button>
+    <button class="filter-pill" onclick="updateFilter('month', this)">Last 30 Days</button>
+    <button class="filter-pill" onclick="updateFilter('sixMonths', this)">Last 6 Months</button>
+    <button class="filter-pill" onclick="updateFilter('year', this)">Last 1 Year</button>
+</div>
+
+<style>
+    .filter-pill { padding: 8px 18px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; transition: 0.3s; white-space: nowrap; }
+    .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+</style>
+<div class="report-card">
+    <div class="card-header">
+        <h2 style="margin:0; font-size:1rem; color:#64748b;">Financial Transactions</h2>
+        <span style="font-weight:700; color:var(--primary);">Feb 2026</span>
+    </div>
+    <table id="billingTableMain">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Consultant</th>
+                <th>Total Amount</th>
+                <th>Method</th>
+                <th>Status</th>
+                <th>Billing Date</th>
+            </tr>
+        </thead>
+        <tbody id="billingTable">
+            </tbody>
+    </table>
+</div>
+
+<div id="previewModal" class="modal">
+    <div class="modal-content">
+        <div id="printArea"></div>
+        <div class="btn-group" style="margin-top:20px; justify-content: flex-end;">
+            <button onclick="generatePDF()" class="btn export-btn" style="background:var(--success);">Download PDF</button>
+            <button onclick="closeModal()" class="btn back-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script type="module" src="../js/billing_report.js"></script>
+<script>
+    function closeModal() { document.getElementById("previewModal").style.display = "none"; }
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Billing & Payment | HMS PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg-main: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --success: #10b981;
+      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .card { background: #ffffff; width: 100%; max-width: 540px; padding: 40px; border-radius: 24px; box-shadow: var(--card-shadow); border: 1px solid rgba(255, 255, 255, 0.8); box-sizing: border-box; }
+    h2 { margin: 0 0 24px 0; color: var(--text-dark); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.025em; display: flex; align-items: center; gap: 12px; }
+    .input-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; }
+    .label-icon { color: var(--primary); font-size: 0.9rem; width: 18px; }
+    input, select { width: 100%; padding: 12px 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; font-family: inherit; box-sizing: border-box; transition: all 0.2s ease; background: #f9fafb; }
+    input:focus, select:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+    .charges-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .full-row { grid-column: span 2; }
+    .total { font-weight: 700; background: #eef2ff !important; border: 2px solid var(--primary) !important; color: var(--primary); font-size: 1.1rem; }
+
+    /* REAL PAYMENT SECTIONS */
+    .payment-section { display: none; background: #f1f5f9; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    .qr-container { text-align: center; }
+    .qr-container img { background: white; padding: 10px; border-radius: 12px; border: 1px solid #cbd5e1; width: 150px; }
+    .card-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+
+    button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
+    button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    .back { display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; margin-top: 20px; text-decoration: none; color: var(--text-light); font-size: 0.875rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2><i class="fas fa-file-invoice-dollar" style="color: var(--primary);"></i> Billing & Payment</h2>
+
+  <span class="input-label"><i class="fas fa-user label-icon"></i> Patient Name</span>
+  <input type="text" id="patientName" placeholder="Enter patient name">
+
+  <span class="input-label"><i class="fas fa-user-md label-icon"></i> Consulting Doctor</span>
+  <select id="doctorSelect">
+    <option value="">Select Doctor</option>
+  </select>
+
+  <div class="charges-grid">
+    <div>
+      <span class="input-label"><i class="fas fa-stethoscope label-icon"></i> Consultation</span>
+      <input type="number" id="consultationFee" placeholder="0.00">
+    </div>
+    <div>
+      <span class="input-label"><i class="fas fa-flask label-icon"></i> Lab Charges</span>
+      <input type="number" id="labCharges" placeholder="0.00">
+    </div>
+    <div class="full-row">
+      <span class="input-label"><i class="fas fa-pills label-icon"></i> Medicine Charges</span>
+      <input type="number" id="medicineCharges" placeholder="0.00">
+    </div>
+    <div class="full-row">
+      <span class="input-label"><i class="fas fa-calculator label-icon"></i> Total Payable Amount</span>
+      <input type="number" id="totalAmount" class="total" placeholder="Total" readonly>
+    </div>
+  </div>
+
+  <div class="charges-grid">
+    <div>
+      <span class="input-label"><i class="fas fa-credit-card label-icon"></i> Method</span>
+      <select id="paymentMethod">
+        <option value="">Select</option>
+        <option value="Cash">Cash</option>
+        <option value="UPI">UPI (QR Code)</option>
+        <option value="Card">Debit/Credit Card</option>
+      </select>
+    </div>
+    <div>
+      <span class="input-label"><i class="fas fa-info-circle label-icon"></i> Status</span>
+      <select id="paymentStatus">
+        <option value="">Select</option>
+        <option>Paid</option>
+        <option>Pending</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="upiSection" class="payment-section">
+    <div class="qr-container">
+      <p style="font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px;">SCAN TO PAY VIA UPI</p>
+      <div id="qrOutput"></div>
+      <p id="qrLabel" style="margin-top: 10px; font-weight: 800; color: var(--primary); font-size: 14px;"></p>
+    </div>
+  </div>
+
+  <div id="cardSection" class="payment-section">
+    <span class="input-label">Card Number</span>
+    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+    <div class="card-grid">
+      <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+      <input type="password" id="cardCvv" placeholder="CVV" maxlength="3">
+    </div>
+  </div>
+
+  <span class="input-label"><i class="fas fa-calendar-day label-icon"></i> Billing Date</span>
+  <input type="date" id="billingDate">
+
+  <button onclick="saveBill()">Generate & Save Invoice</button>
+
+  <a href="../staff.html" class="back">
+    <i class="fas fa-arrow-left"></i> Return to Dashboard
+  </a>
+</div>
+
+<script type="module" src="../js/billing.js"></script>
+
+</body>
+</html>

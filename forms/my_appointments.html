@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Appointments | HMS PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg-main: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar styling */
+    .topbar {
+      background: #0f172a;
+      color: white;
+      padding: 1rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Main wrapper */
+    .center-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .card-lg {
+      background: #ffffff;
+      width: 100%;
+      max-width: 800px;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      font-size: 1rem;
+      margin-bottom: 32px;
+    }
+
+    /* Table Styling */
+    .table-container {
+      width: 100%;
+      overflow-x: auto; /* Responsive on mobile */
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .styled-table thead {
+      background-color: #f1f5f9;
+    }
+
+    .styled-table th {
+      padding: 16px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-light);
+    }
+
+    .styled-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.95rem;
+    }
+
+    .styled-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Status Badges */
+    .badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Mapping classes from your patient_history logic */
+    .status-booked { background: #fef3c7; color: #92400e; }
+    .status-completed { background: #dcfce7; color: #166534; }
+    .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+    /* Back Link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 30px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    /* Loading/Empty State styling */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-light);
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="logo"><i class="fas fa-hospital-alt"></i> HMS PRO</div>
+</header>
+
+<main class="center-wrapper">
+  <div class="card-lg">
+    <h1>My Appointments</h1>
+    <p class="subtitle">Review your scheduled clinical visits and status</p>
+
+    <div class="table-container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th><i class="fas fa-user-md" style="margin-right: 8px;"></i>Doctor</th>
+            <th><i class="fas fa-calendar-alt" style="margin-right: 8px;"></i>Date</th>
+            <th><i class="fas fa-info-circle" style="margin-right: 8px;"></i>Status</th>
+          </tr>
+        </thead>
+        <tbody id="appointmentsBody">
+          <tr>
+            <td colspan="3" class="empty-state">
+              <i class="fas fa-circle-notch fa-spin" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+              <br>Loading your appointments...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <a href="../patient.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+</main>
+
+<script type="module" src="../js/my_appointments.js"></script>
+</body>
+</html>

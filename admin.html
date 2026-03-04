@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>Hospital Dashboard</h1>
+
+<ol>
+  <li>Patient Registration</li>
+  <li>Doctor Registration</li>
+  <li>Appointment Booking</li>
+  <li>OPD Visit</li>
+  <li>Diagnosis / Prescription</li>
+  <li>Lab Test Request</li>
+  <li>Lab Report Entry</li>
+  <li>Discharge Summary</li>
+  <li>Billing & Payment</li>
+  <li>Staff / Nurse Management</li>
+  <li>In-Patient Admission</li>
+</ol>
+
+<button onclick="logout()">Logout</button>
+<script type="module">
+  import { allowOnly } from "./js/guard.js";
+  allowOnly(["doctor", "staff", "admin"]);
+</script>
+
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+
+</body>
+</html>
