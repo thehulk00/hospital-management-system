@@ -1,108 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment Schedule | HMS PRO</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinic Schedule | HMS PRO</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        :root { --primary: #2563eb; --bg: #f1f5f9; --text: #1e293b; --muted: #64748b; --white: #ffffff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 30px; }
-        .container { max-width: 1200px; margin: 0 auto; }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .header-title h1 { font-size: 24px; font-weight: 700; margin: 0; }
-        
-        .btn-group { display: flex; gap: 10px; }
-        .btn { padding: 10px 18px; border-radius: 10px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; border: none; font-size: 14px; transition: 0.2s; }
-        .btn-back { background: var(--white); color: var(--text); border: 1px solid #e2e8f0; }
-        .btn-print { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+<style>
+:root {
+    --accent: #6366f1; /* Indigo */
+    --accent-soft: #eef2ff;
+    --bg-main: #f3f4f6;
+    --text-dark: #111827;
+    --text-light: #6b7280;
+    --white: #ffffff;
+    --radius: 12px;
+}
 
-        /* Monthly Filter Alert */
-        #filterIndicator { 
-            display: none; background: #fffbeb; border: 1px solid #fde68a; 
-            padding: 12px 20px; border-radius: 12px; margin-bottom: 20px;
-            justify-content: space-between; align-items: center;
-        }
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px;
+    -webkit-font-smoothing: antialiased;
+}
 
-        /* Table UI */
-        .card { background: var(--white); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid #e2e8f0; text-align: left; }
-        td { padding: 16px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        
-        /* Hyperlink Patient Name */
-        .patient-link { font-weight: 700; color: var(--primary); text-decoration: none; transition: 0.2s; }
-        .patient-link:hover { text-decoration: underline; color: #1d4ed8; }
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+}
 
-        .badge { padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; }
-        .status-completed { background: #dcfce7; color: #166534; }
-        .status-pending { background: #fef9c3; color: #854d0e; }
+/* Glass Header */
+.header {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 25px 30px;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
 
-        /* Modal Preview */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 3% auto; padding: 35px; border-radius: 20px; width: 90%; max-width: 900px; max-height: 85vh; overflow-y: auto; }
-        
-        #previewArea table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        #previewArea th { background: #2563eb; color: white; padding: 10px; border: 1px solid #ddd; }
-        #previewArea td { padding: 10px; border: 1px solid #ddd; }
-    </style>
+.header-title h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.header-title p {
+    margin: 5px 0 0 0;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* Actions */
+.btn-group {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+}
+
+.btn-back {
+    background: var(--white);
+    color: var(--text-dark);
+    border: 1px solid #e5e7eb;
+}
+
+.btn-print {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* The Data Card */
+.card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background: #fafafa;
+    padding: 18px 25px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    border-bottom: 2px solid #f3f4f6;
+}
+
+tbody td {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f9fafb;
+    font-size: 15px;
+    color: var(--text-dark);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #fcfdff;
+}
+
+/* Elements */
+.patient-link {
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.patient-link:hover {
+    color: #4338ca;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.status-completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-pending {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.complete-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.complete-btn:hover {
+    background: #059669;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+/* Time Highlight */
+.time-col {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
+
     <div class="header">
         <div class="header-title">
-            <h1 id="pageHeading">📅 Patient Appointments</h1>
-            <p id="viewTitle">Sequential Clinic Schedule</p>
+            <h1>Today's Queue</h1>
+            <p>You have <span style="color:var(--accent); font-weight:700;">Active</span> sessions running now.</p>
         </div>
-        <div class="btn-group">
-            <a href="staff.html" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back</a>
-            <button onclick="openAppointmentPreview()" class="btn btn-print"><i class="fas fa-eye"></i> View & Print</button>
-        </div>
-    </div>
 
-    <div id="filterIndicator">
-        <span id="filterText" style="font-weight: 600; color: #854d0e;"></span>
-        <button onclick="window.location.href='today_appointments.html'" class="btn btn-back" style="padding: 5px 10px; font-size: 12px;">Reset to Today</button>
+        <div class="btn-group">
+            <a href="staff.html" class="btn btn-back">
+                <i class="fas fa-chevron-left"></i> Dashboard
+            </a>
+
+            <button onclick="openAppointmentPreview()" class="btn btn-print">
+                <i class="fas fa-file-pdf"></i> Preview Report
+            </button>
+        </div>
     </div>
 
     <div class="card">
         <table id="mainTable">
             <thead>
                 <tr>
-                    <th><i class="fas fa-clock"></i> Schedule</th>
+                    <th>Time Slot</th>
                     <th>Patient Name</th>
-                    <th>Doctor</th>
-                    <th>Department</th>
+                    <th>Medical Staff</th>
+                    <th>Specialization</th>
                     <th>Status</th>
+                    <th>Manage</th>
                 </tr>
             </thead>
-            <tbody id="appointmentsTable"></tbody>
+            <tbody id="appointmentsTable">
+                </tbody>
         </table>
     </div>
-</div>
 
-<div id="previewModal" class="modal">
-    <div class="modal-content">
-        <div id="previewArea"></div>
-        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;">
-            <button class="btn btn-print" onclick="downloadAppointmentPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
-            <button class="btn btn-back" onclick="closeModal()">Close</button>
-        </div>
-    </div>
 </div>
 
 <script type="module" src="js/today_appointments.js"></script>
-<script>
-    window.closeModal = function() { document.getElementById('previewModal').style.display='none'; }
-</script>
+
 </body>
 </html>
