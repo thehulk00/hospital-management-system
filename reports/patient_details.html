@@ -187,30 +187,29 @@
         </div>
     </div>
 </div>
-
 <script type="module">
-    import { db } from "./js/firebase.js";
+    // FIXED: Added "../" to the path to go up from reports/ to the root, then into js/
+    import { db } from "../js/firebase.js"; 
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Extract ID from URL (?id=...)
     const params = new URLSearchParams(window.location.search);
     const docId = params.get('id');
 
-    // Super Cleaner for Doctor Name
     function cleanName(name) {
         if (!name) return "Not Assigned";
-        return "Dr. " + name.replace(/dr\.?\s*/gi, "").trim();
+        return name.toLowerCase().startsWith("dr.") ? name : "Dr. " + name;
     }
 
     async function fetchPatient() {
-        if (!docId) return;
+        if (!docId) {
+            document.getElementById("pName").innerText = "No ID Provided";
+            return;
+        }
 
         try {
-            // Check 'appointments' collection
             const ref = doc(db, "appointments", docId);
             let snap = await getDoc(ref);
 
-            // If not found in appointments, check 'discharge_summaries'
             if (!snap.exists()) {
                 const altRef = doc(db, "discharge_summaries", docId);
                 snap = await getDoc(altRef);
@@ -221,20 +220,24 @@
                 
                 // Populate UI
                 document.getElementById("pName").innerText = data.patientName || "Unnamed Patient";
-                document.getElementById("initials").innerText = (data.patientName || "P").charAt(0);
+                document.getElementById("initials").innerText = (data.patientName || "P").charAt(0).toUpperCase();
                 document.getElementById("pID").innerText = `Record ID: ${docId}`;
                 document.getElementById("dName").innerText = cleanName(data.doctorName);
-                document.getElementById("pDept").innerText = data.department || "General";
-                document.getElementById("pDate").innerText = data.date || data.dischargeDate || "N/A";
+                document.getElementById("pDept").innerText = data.department || "General OPD";
+                
+                // Date formatting
+                const visitDate = data.date || data.dischargeDate || "N/A";
+                document.getElementById("pDate").innerText = visitDate;
                 
                 document.getElementById("pDiagnosis").innerText = data.diagnosis || "No diagnosis recorded.";
-                document.getElementById("pTreatment").innerText = data.treatment || "Routine Care";
-                document.getElementById("pAdvice").innerText = data.advice || "No specific advice provided.";
+                document.getElementById("pTreatment").innerText = data.treatment || "Standard Procedure";
+                document.getElementById("pAdvice").innerText = data.advice || "Follow regular healthy habits.";
             } else {
                 document.getElementById("pName").innerText = "Record Not Found";
             }
         } catch (err) {
-            console.error("Error:", err);
+            console.error("Firebase Error:", err);
+            document.getElementById("pName").innerText = "Database Connection Error";
         }
     }
 

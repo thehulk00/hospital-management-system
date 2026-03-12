@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Medical Report | HMS PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; }
+        .report-card { background: white; max-width: 600px; margin: 40px auto; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h2 { color: #1e293b; margin-bottom: 30px; }
+        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .label { font-weight: 600; color: #64748b; }
+        .value { color: #1e293b; font-weight: 500; }
+        .btn-group { margin-top: 30px; display: flex; gap: 10px; }
+        .btn-print { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        .btn-back { background: #e2e8f0; color: #475569; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        @media print { .btn-group { display: none; } }
+    </style>
+</head>
+<body>
+
+    <div class="report-card" id="printableReport">
+        <h2>Patient Medical Report</h2>
+        
+        <div class="info-row"><span class="label">Patient Name</span> <span class="value" id="repPatientName">Loading...</span></div>
+        <div class="info-row"><span class="label">Doctor</span> <span class="value" id="repDoctorName">Loading...</span></div>
+        <div class="info-row"><span class="label">Visit Date</span> <span class="value" id="repVisitDate">Loading...</span></div>
+        <div class="info-row"><span class="label">Admission Date</span> <span class="value" id="repAdmission">N/A</span></div>
+        <div class="info-row"><span class="label">Discharge Date</span> <span class="value" id="repDischarge">N/A</span></div>
+        <div class="info-row"><span class="label">Status</span> <span class="value" id="repStatus">Loading...</span></div>
+
+        <div class="btn-group">
+            <button class="btn-print" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+            <button class="btn-back" onclick="history.back()">Back</button>
+        </div>
+    </div>
+
+   <script type="module" src="../js/view_report.js"></script>
+</body>
+</html>

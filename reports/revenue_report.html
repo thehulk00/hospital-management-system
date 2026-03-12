@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Revenue Report | HMS PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#f0f2f5;
+margin:0;
+}
+
+/* HEADER */
+
+header{
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color:white;
+padding:20px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+header div:first-child {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+header div:first-child i {
+    font-size: 28px;
+}
+
+header a {
+    background: rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+header a:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateX(-5px);
+}
+
+/* MAIN CARD */
+
+.container{
+max-width:1200px;
+margin:40px auto;
+background:white;
+padding:35px;
+border-radius:24px;
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+}
+
+h2{
+margin:0;
+font-size: 28px;
+color: #1e293b;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+h2 i {
+    color: #667eea;
+}
+
+/* SUMMARY */
+
+.summary{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:25px 0;
+padding:20px;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+border-radius:16px;
+color: white;
+}
+
+.total{
+font-size:28px;
+font-weight:700;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.total i {
+    font-size: 32px;
+}
+
+/* PDF BUTTON */
+
+.pdf-btn {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.pdf-btn i {
+    font-size: 20px;
+}
+
+.pdf-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    background: #f8fafc;
+}
+
+.pdf-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* FILTER BUTTONS */
+
+.report-filters{
+display:flex;
+gap:12px;
+margin-bottom:30px;
+flex-wrap: wrap;
+}
+
+.filter{
+padding:12px 22px;
+border-radius:30px;
+border:1px solid #e2e8f0;
+background:white;
+cursor:pointer;
+font-weight:500;
+font-size:14px;
+transition: all 0.3s ease;
+color: #475569;
+}
+
+.filter:hover {
+    background: #f8fafc;
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.filter.active{
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color:white;
+border:none;
+box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.filter.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* CHART */
+
+.chart-box{
+height:300px;
+margin-bottom:35px;
+padding:20px;
+background:#f8fafc;
+border-radius:16px;
+border:1px solid #e2e8f0;
+}
+
+#revenueChart{
+height:260px !important;
+width:100% !important;
+}
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:700px;
+}
+
+th{
+text-align:left;
+padding:16px;
+background:#f8fafc;
+font-weight:600;
+color:#475569;
+font-size:14px;
+border-bottom:2px solid #e2e8f0;
+}
+
+td{
+padding:16px;
+border-bottom:1px solid #e2e8f0;
+color:#334155;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background:#f1f5f9;
+}
+
+td:last-child {
+    font-weight: 600;
+    color: #059669;
+}
+
+/* LOADING STATE */
+.loading td {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* TOOLTIP */
+.info-tooltip {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+    color: #94a3b8;
+    cursor: help;
+}
+
+.info-tooltip:hover:after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .summary {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .pdf-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div>
+<i class="fas fa-hospital-alt"></i> HMS PRO
+</div>
+
+<a href="../staff.html" style="color:white;text-decoration:none;">
+<i class="fas fa-arrow-left"></i> Back to Dashboard
+</a>
+
+</header>
+
+<div class="container" id="reportContent">
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h2>
+        <i class="fas fa-chart-pie"></i> Revenue Analytics
+        <span class="info-tooltip" data-tooltip="View detailed revenue report with charts and transaction history">
+            <i class="fas fa-info-circle"></i>
+        </span>
+    </h2>
+</div>
+
+<!-- FILTERS -->
+<div class="report-filters">
+
+<button class="filter active" onclick="setFilter(this,'all')">
+    <i class="fas fa-calendar-alt"></i> All Reports
+</button>
+
+<button class="filter" onclick="setFilter(this,7)">
+    <i class="fas fa-clock"></i> Last 7 Days
+</button>
+
+<button class="filter" onclick="setFilter(this,30)">
+    <i class="fas fa-calendar-week"></i> Last 30 Days
+</button>
+
+<button class="filter" onclick="setFilter(this,180)">
+    <i class="fas fa-calendar-alt"></i> Last 6 Months
+</button>
+
+<button class="filter" onclick="setFilter(this,365)">
+    <i class="fas fa-calendar"></i> Last 1 Year
+</button>
+
+</div>
+
+<!-- SUMMARY with PDF Button -->
+<div class="summary">
+
+<div class="total">
+    <i class="fas fa-rupee-sign"></i>
+    <span id="totalRevenue">0</span>
+</div>
+
+<button class="pdf-btn" onclick="previewAndDownloadPDF()">
+    <i class="fas fa-file-pdf"></i>
+    <span>Preview & Download Report</span>
+    <i class="fas fa-chevron-right"></i>
+</button>
+
+</div>
+
+<!-- CHART -->
+<div class="chart-box">
+<canvas id="revenueChart"></canvas>
+</div>
+
+<!-- TABLE -->
+<div class="table-container">
+<table>
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Patient Name</th>
+<th>Doctor Name</th>
+<th>Amount (₹)</th>
+</tr>
+</thead>
+
+<tbody id="revenueTable">
+<tr class="loading">
+    <td colspan="4">
+        <i class="fas fa-spinner fa-spin"></i> Loading revenue data...
+    </td>
+</tr>
+</tbody>
+
+</table>
+</div>
+
+</div>
+
+<script type="module" src="../js/revenue_report.js"></script>
+
+<script>
+
+/* FILTER BUTTON ACTIVE STATE */
+
+function setFilter(btn, days) {
+    // Update active state
+    document.querySelectorAll(".filter")
+        .forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // Call the filter function
+    if (window.filterRevenue) {
+        window.filterRevenue(days);
+    }
+}
+
+/* PREVIEW AND DOWNLOAD FUNCTION */
+window.previewAndDownloadPDF = function() {
+    if (window.previewAndDownloadPDF) {
+        window.previewAndDownloadPDF();
+    } else {
+        console.error("PDF function not loaded yet");
+        alert("Please wait for the data to load completely");
+    }
+};
+
+</script>
+
+</body>
+</html>
