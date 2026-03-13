@@ -1,172 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>OPD Visit | HMS PRO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>OPD Visit | HMS PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --bg-main: #f8fafc;
-      --text-dark: #1e293b;
-      --text-light: #64748b;
-      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
+<style>
 
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
+:root{
+--primary:#6366f1;
+--primary-hover:#4f46e5;
+--bg-main:#f8fafc;
+--text-dark:#1e293b;
+--text-light:#64748b;
+--card-shadow:0 20px 25px -5px rgba(0,0,0,0.04),0 10px 10px -5px rgba(0,0,0,0.04);
+}
 
-    .card {
-      background: #ffffff;
-      width: 100%;
-      max-width: 480px;
-      padding: 40px;
-      border-radius: 24px;
-      box-shadow: var(--card-shadow);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-sizing: border-box;
-    }
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:var(--bg-main);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
 
-    h2 {
-      margin: 0 0 24px 0;
-      color: var(--text-dark);
-      font-size: 1.6rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+.card{
+background:white;
+width:100%;
+max-width:500px;
+padding:40px;
+border-radius:24px;
+box-shadow:var(--card-shadow);
+}
 
-    .input-label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-dark);
-    }
+h2{
+margin:0 0 24px 0;
+font-size:1.6rem;
+font-weight:800;
+display:flex;
+align-items:center;
+gap:10px;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 16px;
-      margin-bottom: 18px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      font-size: 0.95rem;
-      font-family: inherit;
-      box-sizing: border-box;
-      transition: all 0.2s ease;
-      background: #f9fafb;
-    }
+.input-label{
+display:block;
+font-size:0.85rem;
+font-weight:600;
+margin-bottom:6px;
+}
 
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
+input,select,textarea{
+width:100%;
+padding:12px 16px;
+margin-bottom:18px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+font-size:0.95rem;
+background:#f9fafb;
+box-sizing:border-box;
+}
 
-    textarea {
-      resize: none;
-      height: 80px;
-    }
+textarea{
+resize:none;
+height:80px;
+}
 
-    /* Grid for Vitals (BP & Temp) */
-    .vitals-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
+.vitals-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
-      margin-top: 10px;
-    }
+button{
+width:100%;
+padding:14px;
+background:var(--primary);
+color:white;
+border:none;
+border-radius:14px;
+font-size:1rem;
+font-weight:700;
+cursor:pointer;
+margin-top:10px;
+}
 
-    button:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-    }
+button:hover{
+background:var(--primary-hover);
+}
 
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      width: 100%;
-      justify-content: center;
-      margin-top: 20px;
-      text-decoration: none;
-      color: var(--text-light);
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
+.back{
+display:inline-flex;
+align-items:center;
+gap:6px;
+width:100%;
+justify-content:center;
+margin-top:20px;
+text-decoration:none;
+color:var(--text-light);
+font-size:0.875rem;
+}
 
-    .back:hover {
-      color: var(--primary);
-    }
-  </style>
+.back:hover{
+color:var(--primary);
+}
+
+.helper{
+font-size:12px;
+color:#64748b;
+margin-top:-12px;
+margin-bottom:14px;
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="card">
-  <h2><i class="fas fa-stethoscope" style="color: var(--primary);"></i> OPD Visit</h2>
 
-  <span class="input-label">Patient Details</span>
-  <input type="text" id="patientName" placeholder="Search or enter patient name">
+<h2>
+<i class="fas fa-stethoscope" style="color:var(--primary)"></i>
+OPD Visit
+</h2>
 
-  <span class="input-label">Consulting Physician</span>
-  <select id="doctorSelect">
-    <option value="">Select Doctor</option>
-  </select>
+<span class="input-label">Patient Name</span>
+<input type="text" id="patientName" placeholder="Search or enter patient name">
 
-  <span class="input-label">Clinical Observations</span>
-  <textarea id="symptoms" placeholder="Presenting symptoms and history..."></textarea>
 
-  <div class="vitals-row">
-    <div>
-      <span class="input-label">BP (mmHg)</span>
-      <input type="text" id="bp" placeholder="e.g. 120/80">
-    </div>
-    <div>
-      <span class="input-label">Temp (°F)</span>
-      <input type="text" id="temp" placeholder="e.g. 98.6">
-    </div>
-  </div>
+<span class="input-label">Consulting Physician (Hospital)</span>
+<select id="doctorSelect">
+<option value="">Select Doctor</option>
+</select>
 
-  <span class="input-label">Visit Date</span>
-  <input type="date" id="visitDate">
 
-  <button onclick="saveOPD()">Save Clinical Record</button>
+<span class="input-label">Referred By (External Doctor - Optional)</span>
+<input type="text" id="externalDoctor" placeholder="e.g. Dr. Sharma - Ruby Hospital">
 
-  <a href="../staff.html" class="back">
-    <i class="fas fa-chevron-left"></i> Return to Dashboard
-  </a>
+<div class="helper">
+Fill only if patient was referred from another hospital.
+</div>
+
+
+<span class="input-label">Clinical Observations</span>
+<textarea id="symptoms" placeholder="Presenting symptoms and history..."></textarea>
+
+
+<div class="vitals-row">
+
+<div>
+<span class="input-label">BP (mmHg)</span>
+<input type="text" id="bp" placeholder="120/80">
+</div>
+
+<div>
+<span class="input-label">Temp (°F)</span>
+<input type="text" id="temp" placeholder="98.6">
+</div>
+
+</div>
+
+
+<span class="input-label">Visit Date</span>
+<input type="date" id="visitDate">
+
+
+<button onclick="saveOPD()">Save Clinical Record</button>
+
+<a href="../staff.html" class="back">
+<i class="fas fa-chevron-left"></i>
+Return to Dashboard
+</a>
+
 </div>
 
 <script type="module" src="../js/opd.js"></script>

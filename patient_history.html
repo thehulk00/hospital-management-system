@@ -10,10 +10,11 @@
   
   <style>
     :root {
-      --primary: #2563eb;
-      --bg-main: #f8fafc;
+      --primary-teal: #00a680;
+      --bg-main: #f1f5f9;
       --text-dark: #1e293b;
       --text-light: #64748b;
+      --border-color: #e2e8f0;
     }
 
     body {
@@ -23,6 +24,7 @@
       color: var(--text-dark);
     }
 
+    /* Navbar */
     header {
       background: #0f172a;
       color: white;
@@ -32,45 +34,67 @@
       align-items: center;
     }
 
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 24px; }
+    .container { max-width: 1100px; margin: 30px auto; padding: 0 24px; }
 
-    .report-header-card {
+    /* The Main White Card */
+    .report-card {
       background: white;
-      padding: 24px 32px;
-      border-radius: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      padding: 40px;
+      min-height: 80vh;
+    }
+
+    /* Lab Summary Style Header */
+    .printable-header {
+      text-align: center;
       margin-bottom: 30px;
     }
 
-    .report-title {
-      color: var(--primary);
-      font-size: 1.5rem;
-      font-weight: 700;
+    .hospital-title {
+      color: var(--primary-teal);
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 1px;
       margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      text-transform: uppercase;
     }
 
-    .btn-back {
-      background: #f1f5f9;
-      color: #475569;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
+    .report-subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      margin: 8px 0;
     }
+
+    .report-meta {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+
+    .teal-line {
+      height: 2px;
+      background-color: var(--primary-teal);
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    /* Action Bar (Buttons) */
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .btn-group { display: flex; gap: 10px; }
 
     .btn-view-print {
-      background: var(--primary);
+      background: var(--primary-teal);
       color: white;
       border: none;
-      padding: 10px 24px;
-      border-radius: 10px;
+      padding: 10px 20px;
+      border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -78,57 +102,70 @@
       gap: 8px;
     }
 
-    .filter-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-
+    /* Filters */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; }
     .filter-btn {
-      padding: 10px 22px;
-      border-radius: 25px;
-      border: 1px solid #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
       background: white;
-      color: #475569;
-      font-size: 0.85rem;
+      color: var(--text-light);
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
     }
-
     .filter-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
+      background: #f0fdfa;
+      color: var(--primary-teal);
+      border-color: var(--primary-teal);
     }
 
-    .table-container {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-    }
-
+    /* Table Styling */
+    .table-wrapper { width: 100%; margin-top: 10px; }
     table { width: 100%; border-collapse: collapse; }
-    th { 
-      padding: 16px 24px; 
-      font-size: 0.75rem; 
-      text-transform: uppercase; 
-      color: var(--text-light); 
+    
+    th {
       background: #f8fafc;
+      padding: 14px;
       text-align: left;
-      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-light);
+      border-bottom: 1px solid var(--border-color);
     }
-    td { padding: 18px 24px; font-size: 0.95rem; border-bottom: 1px solid #f1f5f9; }
 
-    .date-link { color: var(--primary); text-decoration: none; font-weight: 600; }
-    .patient-name { font-weight: 700; color: #1e293b; text-decoration: none; cursor: pointer; }
-    .action-view-btn {
-      border: 1px solid #e2e8f0;
-      background: white;
-      padding: 6px 12px;
-      border-radius: 8px;
+    td {
+      padding: 16px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.95rem;
+    }
+
+    /* The "Image 2" Accent row effect */
+    tr:hover { background-color: #f8fbfb; }
+    .active-row {
+      border-left: 4px solid var(--primary-teal);
+      background-color: #f0fdfa !important;
+    }
+
+    .patient-name-cell { font-weight: 700; color: #1e293b; text-decoration: none; }
+    .date-cell { color: var(--primary-teal); font-weight: 700; }
+
+    /* Action Button in Table */
+    .action-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--primary-teal);
+      padding: 5px 10px;
+      border-radius: 4px;
       cursor: pointer;
-      color: var(--primary);
     }
 
-    @media print { .filter-bar, .btn-back, header, .action-view-btn { display: none; } }
+    @media print {
+      body { background: white; }
+      header, .action-bar, .filter-bar, .action-btn { display: none; }
+      .container { margin: 0; padding: 0; max-width: 100%; }
+      .report-card { box-shadow: none; padding: 0; }
+    }
   </style>
 </head>
 <body>
@@ -139,38 +176,46 @@
 </header>
 
 <div class="container">
-  <div class="report-header-card">
-    <h2 class="report-title">
-      <i class="fas fa-file-waveform"></i> OPD Sequential Report
-    </h2>
-    <div style="display: flex; gap: 12px;">
-      <button class="btn-back" onclick="history.back()">← Back</button>
-      <button class="btn-view-print" onclick="window.print()">
-        <i class="fas fa-eye"></i> View & Print
-      </button>
+  <div class="action-bar">
+    <button onclick="history.back()" style="border:none; background:none; cursor:pointer; color:var(--text-light); font-weight:600;">← Back</button>
+    <div class="btn-group">
+        <button class="btn-view-print" onclick="window.print()">
+            <i class="fas fa-print"></i> Confirm & Save
+          </button>
     </div>
   </div>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" data-days="all">All Reports</button>
-    <button class="filter-btn" data-days="7">Last 7 Days</button>
-    <button class="filter-btn" data-days="30">Last 30 Days</button>
-    <button class="filter-btn" data-days="180">Last 6 Months</button>
-    <button class="filter-btn" data-days="365">Last 1 Year</button>
-  </div>
+  <div class="report-card">
+    <div class="printable-header">
+      <h1 class="hospital-title">CITY HOSPITAL - OPD SERVICES</h1>
+      <p class="report-subtitle">Daily Diagnostic Summary Report</p>
+      <div class="report-meta">
+        Generated: <span id="genDate">--/--/----</span> | Filter: <span id="activeFilterText" style="text-transform: uppercase;">ALL</span>
+      </div>
+      <div class="teal-line"></div>
+    </div>
 
-  <div class="table-container" id="reportContent">
-    <table>
-      <thead>
-        <tr>
-          <th>Visit Date</th>
-          <th>Patient Name</th>
-          <th>Consulting Doctor</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="historyTableBody"></tbody>
-    </table>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-days="all">All</button>
+      <button class="filter-btn" data-days="7">Week</button>
+      <button class="filter-btn" data-days="30">Month</button>
+      <button class="filter-btn" data-days="365">Year</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Visit Date</th>
+            <th class="action-btn-col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="historyTableBody">
+            </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

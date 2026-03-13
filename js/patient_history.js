@@ -8,7 +8,14 @@ import {
 
 const tableBody = document.getElementById("historyTableBody");
 const filterButtons = document.querySelectorAll(".filter-btn");
+const activeFilterDisplay = document.getElementById("activeFilterText");
+const genDateDisplay = document.getElementById("genDate");
+
 let allRecords = [];
+
+// Set the generation date once on load
+const now = new Date();
+genDateDisplay.textContent = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
 auth.onAuthStateChanged(async (user) => {
     if (!user) {
@@ -45,26 +52,28 @@ function renderTable(data) {
         return;
     }
 
-    data.forEach(item => {
+    data.forEach((item, index) => {
         const row = document.createElement("tr");
-        const dateObj = new Date(item.date);
         
+        // Match the "Image 2" styling: First row gets the teal left border
+        if (index === 0) row.className = "active-row";
+
+        const dateObj = new Date(item.date);
         const formattedDate = item.date 
-            ? dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) 
+            ? dateObj.toISOString().split('T')[0] // Formats as YYYY-MM-DD to match Image 2
             : "—";
 
-        // FIXED: Added 'reports/' before the file names to match your folder structure
         row.innerHTML = `
-            <td><a href="#" class="date-link">${formattedDate}</a></td>
             <td>
-                <a class="patient-name" href="reports/patient_details.html?id=${item.id}">
+                <a class="patient-name-cell" href="reports/patient_details.html?id=${item.id}">
                     ${item.patientName || "Unknown"}
                 </a>
             </td>
             <td>${item.doctorName || "General Staff"}</td>
-            <td>
-                <button class="action-view-btn" onclick="window.location.href='reports/view_report.html?id=${item.id}'">
-                    <i class="fas fa-eye"></i> View
+            <td class="date-cell">${formattedDate}</td>
+            <td class="action-btn-col">
+                <button class="action-btn" onclick="window.location.href='reports/view_report.html?id=${item.id}'">
+                    <i class="fas fa-eye"></i>
                 </button>
             </td>
         `;
@@ -79,6 +88,9 @@ filterButtons.forEach(btn => {
         btn.classList.add("active");
 
         const days = btn.getAttribute("data-days");
+        
+        // Update the header text (e.g., "Filter: MONTH")
+        activeFilterDisplay.textContent = btn.textContent;
         
         if (days === "all") {
             renderTable(allRecords);

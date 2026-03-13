@@ -40,8 +40,29 @@
     header.hide-header { transform: translateY(-100%); }
 
     .header-left h1 { 
-      font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -1px; 
-      display: flex; align-items: center; gap: 10px;
+      font-size: 32px; 
+      font-weight: 800; 
+      color: #fff; 
+      letter-spacing: -1px; 
+      display: flex; 
+      align-items: center; 
+      gap: 15px;
+      text-shadow: 0 2px 20px rgba(45, 212, 191, 0.3);
+      background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-left h1 i { 
+      color: var(--primary); 
+      font-size: 38px;
+      -webkit-text-fill-color: var(--primary);
+      filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.5));
+    }
+
+    header.scrolled .header-left h1 {
+      font-size: 28px;
     }
 
     .header-right { display:flex; align-items:center; gap:15px; }
@@ -84,12 +105,101 @@
     .hero-content { position: relative; z-index: 10; max-width: 700px; color: #fff; }
     .hero-content .badge { 
         background: rgba(45, 212, 191, 0.1); color: var(--primary); 
-        padding: 6px 16px; border-radius: 100px; font-size: 12px; 
-        font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
-        border: 1px solid rgba(45, 212, 191, 0.3); display: inline-block; margin-bottom: 20px;
+        padding: 4px 12px; border-radius: 100px; font-size: 10px; 
+        font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+        border: 1px solid rgba(45, 212, 191, 0.3); display: inline-block; margin-bottom: 15px;
     }
-    .hero-content h2 { font-size: 64px; line-height: 1.1; font-weight: 800; margin-bottom: 25px; letter-spacing: -2px; }
-    .hero-content p { font-size: 19px; color: #94a3b8; line-height: 1.6; margin-bottom: 35px; }
+    .hero-content h2 { 
+      font-size: 42px; 
+      line-height: 1.2; 
+      font-weight: 700; 
+      margin-bottom: 10px; 
+      letter-spacing: -1px; 
+    }
+    .hero-content h2 span { 
+      display: block;
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 5px;
+    }
+    .hero-content p { 
+      font-size: 15px; 
+      color: #cbd5e1; 
+      line-height: 1.5; 
+      margin-bottom: 30px; 
+      max-width: 550px;
+    }
+
+    /* Guide message above appointment button */
+    .guide-message {
+      background: rgba(45, 212, 191, 0.15);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      border-radius: 50px;
+      padding: 12px 24px;
+      margin-bottom: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(10px);
+      animation: slideInUp 0.8s ease;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .guide-message i {
+      color: var(--primary);
+      font-size: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(5px); }
+    }
+
+    .guide-message .guide-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .guide-message .guide-text strong {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .guide-message .arrow {
+      color: var(--primary);
+      font-size: 18px;
+      margin-left: 5px;
+    }
+
+    /* Pulse animation for button */
+    .pulse-btn {
+      animation: buttonPulse 2s infinite;
+    }
+
+    @keyframes buttonPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(45, 212, 191, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(45, 212, 191, 0);
+      }
+    }
 
     /* --- FEATURE CARDS --- */
     section { padding: 120px 60px; }
@@ -190,6 +300,14 @@
     .footer-box p { font-size: 15px; margin-bottom: 12px; line-height: 1.7; }
     .footer-box a:hover { color: var(--primary); }
 
+    .footer-bottom {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      font-size: 14px;
+    }
+
    @media (max-width: 900px) {
 
   /* Navbar */
@@ -202,7 +320,11 @@
   }
 
   .header-left h1 {
-    font-size: 18px;
+    font-size: 24px;
+  }
+
+  .header-left h1 i {
+    font-size: 28px;
   }
 
   .header-right {
@@ -232,13 +354,25 @@
 
   .hero-content h2 {
     font-size: 32px;
-    line-height: 1.2;
-    letter-spacing: -1px;
+  }
+  
+  .hero-content h2 span {
+    font-size: 28px;
   }
 
   .hero-content p {
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 25px;
+  }
+
+  .guide-message {
+    padding: 10px 18px;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .guide-message i {
+    font-size: 16px;
   }
 
   /* Stack button + phone vertically */
@@ -289,23 +423,31 @@
 
 <header id="mainNavbar">
   <div class="header-left">
-    <h1><i class="fas fa-city" style="color: var(--primary);"></i> City Hospital</h1>
+    <h1><i class="fas fa-city"></i> City Hospital Kolhapur</h1>
   </div>
 
   <div class="header-right">
     <span class="emergency">🚑 ER: 108</span>
-    <button onclick="openDoctors()">Doctors</button>
+    <button onclick="openDoctors()">Our Doctors</button>
     <button onclick="openLogin()"> Login</button>
   </div>
 </header>
 
 <div class="hero" id="hero">
   <div class="hero-content">
-    <div class="badge">NABH Accredited Facility</div>
-    <h2>Precision Medicine. Compassionate Care.</h2>
+    <div class="badge">NABH ACCREDITED FACILITY</div>
+    <h2>Precision Medicine.<span>Compassionate Care.</span></h2>
     <p>City Hospital Kolhapur integrates cutting-edge technology with empathy to provide a healing environment that is available 24/7 for you and your loved ones.</p>
+    
+    <!-- Guide message above appointment button -->
+    <div class="guide-message">
+      <i class="fas fa-hand-point-right"></i>
+      <span class="guide-text"><strong>👋 Click here to book</strong> your appointment with our top specialists</span>
+      <i class="fas fa-arrow-right arrow"></i>
+    </div>
+    
     <div style="display: flex; gap: 20px; align-items: center;">
-        <button onclick="location.href='appointments.html'" style="padding: 16px 32px; background: var(--primary); border:none; border-radius: 14px; font-weight: 800; color: var(--navy); cursor:pointer;">Book Appointment</button>
+        <button onclick="location.href='register.html'" class="pulse-btn" style="padding: 16px 32px; background: var(--primary); border:none; border-radius: 14px; font-weight: 800; color: var(--navy); cursor:pointer;">Book Appointment</button>
         <span style="font-weight:700; color: #fff;"><i class="fas fa-phone-alt" style="color: var(--primary); margin-right: 10px;"></i> 0231-265-XXXX</span>
     </div>
   </div>
@@ -317,7 +459,7 @@
       <p>Our hospital is equipped with state-of-the-art diagnostic and surgical infrastructure to ensure the best outcomes.</p>
   </div>
   <div class="feature-cards">
-    <a href="appointments.html" class="feature-card">
+    <a href="register.html" class="feature-card">
       <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
       <h3>Smart Booking</h3>
       <p>Avoid long queues. Schedule your consultations digitally in less than 60 seconds.</p>
@@ -431,6 +573,13 @@
 
   function openDoctors(){ document.getElementById("doctorsModal").style.display="flex"; }
   function closeDoctors(){ document.getElementById("doctorsModal").style.display="none"; }
+
+  // Login function
+  function login() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    alert('Login functionality will be integrated with backend');
+  }
 </script>
 
 <script type="module" src="./js/auth.js"></script>
