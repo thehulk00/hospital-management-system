@@ -201,6 +201,55 @@
       }
     }
 
+    /* Phone number below button */
+    .phone-section {
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .phone-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .phone-item:hover {
+      background: rgba(45, 212, 191, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .phone-item i {
+      font-size: 20px;
+      color: var(--primary);
+    }
+
+    .phone-item .phone-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-item .phone-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+    }
+
+    .phone-item .phone-number {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
     /* --- FEATURE CARDS --- */
     section { padding: 120px 60px; }
     .section-header { text-align: center; max-width: 700px; margin: 0 auto 70px; }
@@ -387,6 +436,15 @@
     max-width: 300px;
   }
 
+  .phone-section {
+    justify-content: center;
+  }
+
+  .phone-item {
+    width: 100%;
+    justify-content: center;
+  }
+
   /* Sections */
   section {
     padding: 80px 20px;
@@ -446,9 +504,20 @@
       <i class="fas fa-arrow-right arrow"></i>
     </div>
     
-    <div style="display: flex; gap: 20px; align-items: center;">
-        <button onclick="location.href='register.html'" class="pulse-btn" style="padding: 16px 32px; background: var(--primary); border:none; border-radius: 14px; font-weight: 800; color: var(--navy); cursor:pointer;">Book Appointment</button>
-        <span style="font-weight:700; color: #fff;"><i class="fas fa-phone-alt" style="color: var(--primary); margin-right: 10px;"></i> 0231-265-XXXX</span>
+    <!-- Book Appointment Button -->
+    <div>
+      <button onclick="location.href='register.html'" class="pulse-btn" style="padding: 16px 32px; background: var(--primary); border:none; border-radius: 14px; font-weight: 800; color: var(--navy); cursor:pointer;">Book Appointment</button>
+    </div>
+
+    <!-- Original phone number below the button -->
+    <div class="phone-section">
+      <div class="phone-item">
+        <i class="fas fa-phone-alt"></i>
+        <div class="phone-details">
+          <span class="phone-label">CALL US FOR APPOINTMENT</span>
+          <span class="phone-number">0231-265-XXXX</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
