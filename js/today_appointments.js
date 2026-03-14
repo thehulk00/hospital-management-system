@@ -28,7 +28,7 @@ const data = docSnap.data();
 const id = docSnap.id;
 
 const appDate = data.date || "";
-const appTime = data.time || "00:00";
+const appTime = data.timeSlot || "Not set";
 
 if(appDate !== today) return;
 
@@ -43,10 +43,7 @@ appTime
 
 appointmentList.sort((a,b)=>{
 
-const dateA = new Date(`${a.appDate}T${a.appTime}`);
-const dateB = new Date(`${b.appDate}T${b.appTime}`);
-
-return dateA-dateB;
+return a.appTime.localeCompare(b.appTime);
 
 });
 

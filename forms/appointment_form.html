@@ -1,211 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Book Appointment | HMS PRO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<title>Book Appointment | HMS PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --emergency: #ef4444;
-      --bg-main: #f8fafc;
-      --text-dark: #1e293b;
-      --text-light: #64748b;
-      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+<style>
 
-    /* Clean Topbar */
-    .topbar {
-      background: #0f172a;
-      color: white;
-      padding: 1.25rem 3rem;
-      display: flex;
-      justify-content: center; /* Center the logo since there is no back button */
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    }
+body{
+font-family:'Inter',sans-serif;
+background:#f8fafc;
+margin:0;
+display:flex;
+flex-direction:column;
+min-height:100vh;
+}
 
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+.topbar{
+background:#0f172a;
+color:white;
+padding:20px;
+text-align:center;
+font-weight:700;
+font-size:20px;
+}
 
-    /* Form Layout */
-    .center-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
+.center-wrapper{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+}
 
-    .card-lg {
-      background: #ffffff;
-      width: 100%;
-      max-width: 480px;
-      padding: 40px;
-      border-radius: 24px;
-      box-shadow: var(--card-shadow);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-    }
+.card{
+background:white;
+padding:40px;
+width:420px;
+border-radius:16px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
 
-    .form-title {
-      margin: 0 0 24px 0;
-      color: var(--text-dark);
-      font-size: 1.6rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: center;
-    }
+h2{
+text-align:center;
+margin-top:0;
+}
 
-    label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      margin-top: 18px;
-      color: var(--text-dark);
-    }
+label{
+font-weight:600;
+display:block;
+margin-top:18px;
+margin-bottom:6px;
+}
 
-    input[type="text"], input[type="date"], select {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      font-size: 0.95rem;
-      font-family: inherit;
-      box-sizing: border-box;
-      transition: all 0.2s ease;
-      background: #f9fafb;
-    }
+input,select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #e2e8f0;
+font-size:14px;
+}
 
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
+input:focus,select:focus{
+outline:none;
+border-color:#6366f1;
+}
 
-    /* Emergency Checkbox Section */
-    .emergency-label {
-      margin-top: 20px;
-      padding: 14px;
-      background: #fef2f2;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      border: 1px solid #fee2e2;
-      transition: background 0.2s;
-    }
+button{
+margin-top:30px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#6366f1;
+color:white;
+font-weight:700;
+cursor:pointer;
+font-size:16px;
+}
 
-    .emergency-label:hover {
-      background: #fff1f1;
-    }
+button:hover{
+background:#4f46e5;
+}
 
-    .emergency-label input {
-      width: 18px;
-      height: 18px;
-      margin-right: 12px;
-      accent-color: var(--emergency);
-      cursor: pointer;
-    }
+.emergency{
+margin-top:15px;
+display:flex;
+align-items:center;
+gap:8px;
+}
 
-    .emergency-text {
-      font-weight: 600;
-      color: #991b1b;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
-    }
-
-    .primary-btn {
-      width: 100%;
-      margin-top: 30px;
-      padding: 14px;
-      border: none;
-      border-radius: 14px;
-      background: var(--primary);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
-    }
-
-    .primary-btn:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
 <header class="topbar">
-  <div class="logo"><i class="fas fa-hospital-alt"></i> HMS PRO</div>
+<i class="fas fa-hospital"></i> City Hospital HMS
 </header>
 
-<main class="center-wrapper">
-  <form id="appointmentForm" class="card-lg">
-    <h2 class="form-title">
-      <i class="far fa-calendar-plus" style="color: var(--primary);"></i> Book Appointment
-    </h2>
+<div class="center-wrapper">
 
-    <label for="patientName">Patient Name</label>
-    <input
-      type="text"
-      id="patientName"
-      placeholder="Search or enter patient name"
-      required
-    />
+<form id="appointmentForm" class="card">
 
-    <label for="doctorSelect">Select Doctor</label>
-    <select id="doctorSelect" required>
-      <option value="" disabled selected>Choose a physician...</option>
-      </select>
+<h2><i class="fas fa-calendar-plus"></i> Book Appointment</h2>
 
-    <label for="date">Appointment Date</label>
-    <input
-      type="date"
-      id="date"
-      required
-    />
+<label>Patient Name</label>
+<input type="text" id="patientName" placeholder="Enter patient name" required>
 
-    <label class="emergency-label">
-      <input type="checkbox" id="isEmergency">
-      <span class="emergency-text"><i class="fas fa-exclamation-circle"></i> Mark as Emergency</span>
-    </label>
+<label>Select Doctor</label>
+<select id="doctorSelect" required>
+<option value="">Loading doctors...</option>
+</select>
 
-    <button type="submit" class="primary-btn">
-      Confirm Appointment
-    </button>
-  </form>
-</main>
+<label>Appointment Date</label>
+<input type="date" id="date" required>
+
+<label>Time Slot</label>
+<select id="timeSlot" required>
+
+<option value="">Select Time</option>
+
+<option>09:00 AM</option>
+<option>09:30 AM</option>
+<option>10:00 AM</option>
+<option>10:30 AM</option>
+<option>11:00 AM</option>
+<option>11:30 AM</option>
+
+<option>02:00 PM</option>
+<option>02:30 PM</option>
+<option>03:00 PM</option>
+<option>03:30 PM</option>
+<option>04:00 PM</option>
+<option>04:30 PM</option>
+
+</select>
+
+<div class="emergency">
+<input type="checkbox" id="isEmergency">
+<label>Emergency Appointment</label>
+</div>
+
+<button type="submit">
+<i class="fas fa-check"></i> Confirm Appointment
+</button>
+
+</form>
+
+</div>
 
 <script type="module" src="../js/appointment.js"></script>
+
 </body>
 </html>

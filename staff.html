@@ -12,15 +12,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
 <style>
 
 :root{
---primary:#6366f1;
+--primary:#4f46e5;
+--primary-light:#6366f1;
 --sidebar-bg:#ffffff;
---main-bg:#f3f4f6;
+--main-bg:#f1f5f9;
 --text-dark:#1f2937;
 --text-light:#6b7280;
---card-shadow:0 10px 25px -5px rgba(0,0,0,0.05);
+--card-shadow:0 12px 25px rgba(0,0,0,0.08);
 }
 
 body{
@@ -36,7 +38,7 @@ color:var(--text-dark);
 
 .sidebar{
 width:300px;
-background:white;
+background:var(--sidebar-bg);
 border-right:1px solid #e5e7eb;
 position:fixed;
 height:100vh;
@@ -48,7 +50,7 @@ flex-direction:column;
 padding:2rem;
 display:flex;
 flex-direction:column;
-gap:5px;
+gap:6px;
 }
 
 .brand-logo{
@@ -58,12 +60,6 @@ color:var(--primary);
 display:flex;
 align-items:center;
 gap:12px;
-}
-
-.hospital-name{
-font-size:12px;
-color:var(--text-light);
-margin-left:35px;
 }
 
 .nav-menu{
@@ -88,6 +84,7 @@ text-decoration:none;
 color:var(--text-dark);
 border-radius:10px;
 font-weight:500;
+transition:0.25s;
 }
 
 .nav-menu a i{
@@ -96,8 +93,9 @@ margin-right:10px;
 }
 
 .nav-menu a:hover{
-background:#f9fafb;
+background:#eef2ff;
 color:var(--primary);
+transform:translateX(3px);
 }
 
 /* Main */
@@ -108,32 +106,42 @@ width:calc(100% - 300px);
 padding:30px;
 }
 
+/* Header */
+
 .header{
 background:white;
-padding:18px 25px;
+padding:30px 25px;
 border-radius:18px;
-display:flex;
-justify-content:space-between;
-align-items:center;
 box-shadow:var(--card-shadow);
-margin-bottom:25px;
+margin-bottom:30px;
+text-align:center;
+position:relative;
 }
 
 .page-title h1{
 margin:0;
-font-size:26px;
+font-size:34px;
+font-weight:800;
+color:#111827;
 }
 
 .page-title span{
-color:var(--text-light);
-font-size:14px;
+display:block;
+margin-top:6px;
+font-size:16px;
+font-weight:600;
+color:var(--primary);
+letter-spacing:2px;
 }
 
 .logout-btn{
-background:#111827;
+position:absolute;
+right:25px;
+top:25px;
+background:var(--primary);
 color:white;
 border:none;
-padding:10px 20px;
+padding:10px 18px;
 border-radius:10px;
 cursor:pointer;
 }
@@ -159,10 +167,52 @@ display:flex;
 align-items:center;
 gap:10px;
 font-size:18px;
+font-weight:600;
+}
+
+/* Chart Sizes */
+
+#patientChart{
+max-height:260px;
+}
+
+#deptChart{
+width:320px;
+height:320px;
+margin:auto;
+display:block;
 }
 
 canvas{
 margin-top:20px;
+}
+
+/* Appointment Counter */
+
+.appointment-counter{
+margin-top:18px;
+background:#eef2ff;
+border-radius:10px;
+padding:10px 14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+cursor:pointer;
+transition:0.2s;
+}
+
+.appointment-counter:hover{
+background:#e0e7ff;
+}
+
+.counter-number{
+font-size:18px;
+font-weight:700;
+}
+
+.counter-label{
+font-size:13px;
+color:var(--text-light);
 }
 
 </style>
@@ -174,11 +224,9 @@ margin-top:20px;
 <aside class="sidebar">
 
 <div class="brand">
-
 <div class="brand-logo">
 <i class="fas fa-shield-virus"></i> City Hospital Kolhapur
 </div>
-
 </div>
 
 <nav class="nav-menu">
@@ -202,6 +250,7 @@ margin-top:20px;
 <a href="reports/today_patients.html">
 <i class="fas fa-user-plus"></i> Today's Patient Registration
 </a>
+
 <a href="reports/admission_report.html"><i class="fas fa-procedures"></i> Admission Report</a>
 <a href="reports/lab_report_summary.html"><i class="fas fa-flask"></i> All Lab Reports</a>
 <a href="reports/doctor_performance.html"><i class="fas fa-star"></i> Doctor Performance</a>
@@ -209,13 +258,14 @@ margin-top:20px;
 <a href="reports/billing_report.html"><i class="fas fa-file-invoice"></i> Billing Report</a>
 <a href="reports/staff_report.html"><i class="fas fa-user-tie"></i> Staff Report</a>
 
-<!-- Added Today Appointments -->
 <a href="today_appointments.html">
 <i class="fas fa-calendar-day"></i> Today's Appointments
 </a>
+
 <a href="patient_history.html">
 <i class="fas fa-notes-medical"></i> Patient History
 </a>
+
 <a href="reports/revenue_report.html">
 <i class="fas fa-chart-line"></i> Revenue Report
 </a>
@@ -237,8 +287,8 @@ margin-top:20px;
 <header class="header">
 
 <div class="page-title">
-<h1>Operations Dashboard</h1>
-<span>Hospital Management Information System</span>
+<h1>HOSPITAL MANAGEMENT SYSTEM</h1>
+<span>DASHBOARD</span>
 </div>
 
 <button class="logout-btn" onclick="logout()">Logout</button>
@@ -248,12 +298,27 @@ margin-top:20px;
 <div class="dashboard-grid">
 
 <div class="card">
-<h3><i class="fas fa-chart-line" style="color:#6366f1"></i> Weekly Revenue</h3>
+
+<h3><i class="fas fa-chart-line" style="color:#4f46e5"></i> Weekly Revenue</h3>
+
 <canvas id="patientChart"></canvas>
+
+<div class="appointment-counter"
+onclick="window.location.href='today_appointments.html'">
+
+<div>
+<div class="counter-number" id="todayAppointmentsCount">0</div>
+<div class="counter-label">Today's Appointments</div>
+</div>
+
+<i class="fas fa-calendar-check" style="color:#4f46e5;"></i>
+
+</div>
+
 </div>
 
 <div class="card">
-<h3><i class="fas fa-chart-pie" style="color:#6366f1"></i> Payment Distribution</h3>
+<h3><i class="fas fa-chart-pie" style="color:#4f46e5"></i> Payment Distribution(All Time)</h3>
 <canvas id="deptChart"></canvas>
 </div>
 
@@ -263,6 +328,41 @@ margin-top:20px;
 
 <script type="module" src="js/dashboard_analytics.js"></script>
 <script type="module" src="js/auth.js"></script>
+
+<script type="module">
+import { db } from "./js/firebase.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+async function loadTodayAppointments(){
+
+  const snapshot = await getDocs(collection(db,"appointments"));
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  let count = 0;
+
+  snapshot.forEach(doc => {
+
+    const data = doc.data();
+console.log(doc.data());
+    if(data.date){
+
+      const appointmentDate = new Date(data.date);
+      appointmentDate.setHours(0,0,0,0);
+
+      if(appointmentDate.getTime() === today.getTime()){
+        count++;
+      }
+
+    }
+
+  });
+
+  document.getElementById("todayAppointmentsCount").textContent = count;
+}
+
+loadTodayAppointments();
+</script>
 
 </body>
 </html>
