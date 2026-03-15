@@ -1,212 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Patient Registration | City Hospital Kolhapur</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>Patient Registration | City Hospital Kolhapur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <style>
-    :root {
-      --primary: #2dd4bf;
-      --navy-dark: #0f172a;
-      --glass: rgba(255, 255, 255, 0.95);
-    }
+    <style>
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #14b8a6;
+            --navy-dark: #0f172a;
+            --slate-500: #64748b;
+            --slate-100: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.98);
+        }
 
-    * {
-      box-sizing: border-box;
-      font-family: "Plus Jakarta Sans", sans-serif;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            transition: all 0.2s ease;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      /* Matching your Login page's deep radial background */
-      background: radial-gradient(circle at center, #1e293b, #0f172a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .register-card {
-      background: var(--glass);
-      width: 100%;
-      max-width: 420px;
-      padding: 50px 40px;
-      border-radius: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    }
+        .register-card {
+            background: var(--glass);
+            width: 100%;
+            max-width: 700px; /* Increased width for grid */
+            padding: 40px;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    /* Subtle glow effect at the top */
-    .register-card::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 100px;
-      background: var(--primary);
-      filter: blur(60px);
-      opacity: 0.2;
-      pointer-events: none;
-    }
+        /* Decorative Accent */
+        .register-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, var(--primary), #3b82f6);
+        }
 
-    .logo {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--navy-dark);
-      margin-bottom: 8px;
-      letter-spacing: -1px;
-    }
+        .header-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
 
-    h2 {
-      text-align: center;
-      margin: 0;
-      color: var(--navy-dark);
-      font-weight: 800;
-      font-size: 26px;
-    }
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-    p.subtitle {
-      text-align: center;
-      font-size: 14px;
-      color: #64748b;
-      margin: 10px 0 35px;
-    }
+        h2 {
+            margin: 0;
+            color: var(--navy-dark);
+            font-weight: 800;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+        }
 
-    .input-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
+        .subtitle {
+            font-size: 15px;
+            color: var(--slate-500);
+            margin: 8px 0 0;
+        }
 
-    .input-group i {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #94a3b8;
-      font-size: 18px;
-    }
+        /* Form Grid Logic */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      margin-left: 5px;
-      color: var(--navy-dark);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        .full-width {
+            grid-column: span 2;
+        }
 
-    input {
-      width: 100%;
-      padding: 16px 16px 16px 52px;
-      border-radius: 18px;
-      border: 1px solid #e2e8f0;
-      background: #f8fafc;
-      font-size: 15px;
-      font-weight: 500;
-      outline: none;
-      transition: all 0.3s ease;
-      color: var(--navy-dark);
-    }
+        .input-group-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
 
-    input:focus {
-      border-color: var(--primary);
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.1);
-    }
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--navy-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-    button {
-      width: 100%;
-      padding: 18px;
-      background: var(--navy-dark);
-      color: #ffffff;
-      border: none;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
+        .input-field-container {
+            position: relative;
+        }
 
-    button:hover {
-      background: var(--primary);
-      color: var(--navy-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(45, 212, 191, 0.3);
-    }
+        .input-field-container i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-500);
+            font-size: 16px;
+        }
 
-    .back-link {
-      display: block;
-      text-align: center;
-      margin-top: 25px;
-      font-size: 14px;
-      color: #64748b;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.2s;
-    }
+        input, select {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border-radius: 14px;
+            border: 1.5px solid var(--slate-100);
+            background: #f8fafc;
+            font-size: 15px;
+            font-weight: 500;
+            outline: none;
+            color: var(--navy-dark);
+        }
 
-    .back-link:hover {
-      color: var(--primary);
-    }
-  </style>
+        input:focus, select:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15);
+        }
+
+        /* Button Styling */
+        .actions {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--navy-dark);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: var(--navy-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(45, 212, 191, 0.25);
+        }
+
+        .back-link {
+            text-align: center;
+            font-size: 14px;
+            color: var(--slate-500);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: var(--navy-dark);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .register-card {
+                padding: 30px 20px;
+                border-radius: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="register-card">
-    <div class="logo">
-      <i class="fas fa-city" style="color: var(--primary);"></i> City Hospital Kolhapur
+<div class="register-card">
+    <div class="header-section">
+        <div class="logo">
+            <i class="fas fa-heart-pulse" style="color:var(--primary);"></i> 
+            City Hospital Kolhapur
+        </div>
+        <h2>Create Account</h2>
+        <p class="subtitle">Enter your details to register as a patient</p>
     </div>
 
-    <h2>Create Account</h2>
-    <p class="subtitle">Join our patient portal for 24/7 access</p>
+    <form id="regForm" class="form-grid">
+        <div class="input-group-wrapper full-width">
+            <label for="name">Full Name</label>
+            <div class="input-field-container">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" placeholder="Enter your full name">
+            </div>
+        </div>
 
-    <label for="email">Email Address</label>
-    <div class="input-group">
-      <i class="fas fa-envelope"></i>
-      <input type="email" id="email" placeholder="name@example.com" />
+        <div class="input-group-wrapper">
+            <label for="email">Email Address</label>
+            <div class="input-field-container">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="name@example.com">
+            </div>
+        </div>
+
+        <div class="input-group-wrapper">
+            <label for="phone">Phone Number</label>
+            <div class="input-field-container">
+                <i class="fas fa-phone"></i>
+                <input type="text" id="phone" placeholder="+91 00000 00000">
+            </div>
+        </div>
+
+        <div class="input-group-wrapper full-width">
+            <label for="password">Security Password</label>
+            <div class="input-field-container">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Minimum 8 characters">
+            </div>
+        </div>
+
+        <div class="input-group-wrapper">
+            <label for="age">Age</label>
+            <div class="input-field-container">
+                <i class="fas fa-calendar-day"></i>
+                <input type="number" id="age" placeholder="Age">
+            </div>
+        </div>
+
+        <div class="input-group-wrapper">
+            <label for="gender">Gender</label>
+            <div class="input-field-container">
+                <i class="fas fa-venus-mars"></i>
+                <select id="gender">
+                    <option value="" disabled selected>Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="actions">
+        <button id="registerBtn" type="button">
+            Create My Account <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <a href="index.html" class="back-link">
+            <i class="fas fa-chevron-left" style="font-size: 10px;"></i> Already have an account? Sign In
+        </a>
     </div>
+</div>
 
-    <label for="password">Security Password</label>
-    <div class="input-group">
-      <i class="fas fa-lock"></i>
-      <input type="password" id="password" placeholder="Create a strong password" />
-    </div>
+<script type="module" src="./js/register.js"></script>
 
-    <button id="registerBtn" type="button">
-      Complete Registration <i class="fas fa-user-plus"></i>
-    </button>
-
-    <a href="index.html" class="back-link">
-      <i class="fas fa-arrow-left" style="font-size: 12px; margin-right: 5px;"></i> 
-      Back to Login
-    </a>
-
-  </div>
-
-  <script type="module" src="./js/register.js"></script>
 </body>
 </html>

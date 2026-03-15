@@ -35,37 +35,74 @@ window.register = async function () {
 
 /* ================= LOGIN ================= */
 window.login = async function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  try {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    const snap = await getDoc(doc(db, "users", cred.user.uid));
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
 
-    if (!snap.exists()) {
-      alert("No role assigned. Contact admin.");
-      return;
-    }
+try {
 
-    const role = snap.data().role;
-    console.log("Patient role from Firestore:", role);
+const cred = await signInWithEmailAndPassword(auth,email,password);
+const uid = cred.user.uid;
+/* CHECK PATIENTS FIRST */
+let snap = await getDoc(doc(db,"patients",uid));
 
-    localStorage.removeItem("role");   // clean old junk
-localStorage.setItem("role", role);
+if(snap.exists()){
 
+const role = snap.data().role;
 
-    if (role === "patient") {
-      location.href = "patient.html";
-    } 
-    else if (role === "doctor" || role === "staff") {
-      location.href = "staff.html";
-    } 
-    else if (role === "admin") {
-      location.href = "admin.html";
-    }
-  } catch (err) {
-    alert(err.message);
-  }
+localStorage.setItem("role",role);
+
+// redirect to patient dashboard
+location.href="./patient.html";
+
+return;
+
+}
+
+/* CHECK STAFF / DOCTORS */
+snap = await getDoc(doc(db,"users",uid));
+
+if(snap.exists()){
+
+const role = snap.data().role;
+
+localStorage.setItem("role",role);
+
+if(role === "admin"){
+location.href="admin.html";
+}
+else if(role === "doctor"){
+location.href="staff.html";
+}
+else if(role === "staff"){
+location.href="staff.html";
+}
+
+return;
+}
+
+/* CHECK ADMINS */
+snap = await getDoc(doc(db,"users",uid));
+
+if(snap.exists()){
+
+const role = snap.data().role;
+
+if(role === "admin"){
+location.href="admin.html";
+return;
+}
+
+}
+
+alert("No role assigned. Contact admin.");
+
+} catch(err){
+
+alert(err.message);
+
+}
+
 };
 
 

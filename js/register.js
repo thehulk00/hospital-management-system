@@ -1,42 +1,60 @@
 import { auth, db } from "./firebase.js";
+
 import {
-  createUserWithEmailAndPassword
+createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
-  doc,
-  setDoc,
-  serverTimestamp
+doc,
+setDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const registerBtn = document.getElementById("registerBtn");
 
 registerBtn.addEventListener("click", async () => {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
 
-  if (!email || !password) {
-    alert("Please fill all fields");
-    return;
-  }
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value.trim();
+const name = document.getElementById("name").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const age = document.getElementById("age").value.trim();
+const gender = document.getElementById("gender").value;
 
-  try {
-    // 1️⃣ Create user in Firebase AUTH
-    const userCred = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCred.user;
+if(!email || !password || !name){
+alert("Please fill required fields");
+return;
+}
 
-    // 2️⃣ Save user in Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      email: email,
-      role: "patient",
-      createdAt: serverTimestamp()
-    });
+try{
 
-    alert("Registration successful 🎉");
-    window.location.href = "index.html";
+const userCred = await createUserWithEmailAndPassword(auth,email,password);
+const user = userCred.user;
 
-  } catch (error) {
-    alert(error.message);
-    console.error(error);
-  }
+await setDoc(doc(db,"patients",user.uid),{
+
+name:name,
+email:email,
+phone:phone,
+age:Number(age),
+gender:gender,
+
+role:"patient",   // ⭐ IMPORTANT FIX
+
+createdAt:serverTimestamp()
+
+});
+
+alert("Registration Successful 🎉");
+
+// redirect to profile page
+window.location.href="../patient.html";
+
+}catch(err){
+
+alert(err.message);
+console.error(err);
+
+}
+
 });

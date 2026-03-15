@@ -1,14 +1,16 @@
 import { auth, db } from "./firebase.js";
+
 import {
 collection,
 addDoc,
 getDocs,
-getDoc,
-doc,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* LOAD DOCTORS */
+
+/* ===============================
+   LOAD DOCTORS INTO DROPDOWN
+================================ */
 
 const doctorSelect = document.getElementById("doctorSelect");
 
@@ -46,9 +48,12 @@ console.error("Error loading doctors:",error);
 loadDoctors();
 
 
-/* BOOK APPOINTMENT */
+/* ===============================
+   BOOK APPOINTMENT
+================================ */
 
-document.getElementById("appointmentForm")
+document
+.getElementById("appointmentForm")
 .addEventListener("submit", async (e)=>{
 
 e.preventDefault();
@@ -58,9 +63,13 @@ const user = auth.currentUser;
 if(!user){
 
 alert("Session expired. Please login again.");
+window.location.href="../index.html";
 return;
 
 }
+
+
+/* GET FORM DATA */
 
 const patientName = document.getElementById("patientName").value.trim();
 const doctorName = doctorSelect.value;
@@ -74,6 +83,9 @@ const department = selectedOption
 ? selectedOption.dataset.department
 : "General";
 
+
+/* VALIDATION */
+
 if(!patientName || !doctorName || !date || !timeSlot){
 
 alert("Please fill all required fields");
@@ -81,7 +93,11 @@ return;
 
 }
 
+
 try{
+
+
+/* SAVE APPOINTMENT */
 
 await addDoc(collection(db,"appointments"),{
 
@@ -97,13 +113,21 @@ createdAt:serverTimestamp()
 
 });
 
-alert("Appointment booked successfully");
 
-const userDoc = await getDoc(doc(db,"users",user.uid));
+alert("Appointment booked successfully 🎉");
 
-if(userDoc.exists()){
 
-const role = userDoc.data().role;
+/* RESET FORM */
+
+document.getElementById("appointmentForm").reset();
+
+
+/* ===============================
+   REDIRECT BASED ON ROLE
+================================ */
+
+const role = localStorage.getItem("role");
+
 
 switch(role){
 
@@ -125,16 +149,12 @@ window.location.href="../index.html";
 
 }
 
-}else{
-
-window.location.href="../index.html";
-
-}
 
 }catch(error){
 
 console.error("Error booking appointment:",error);
-alert("Failed to book appointment");
+
+alert("Failed to book appointment. Please try again.");
 
 }
 
