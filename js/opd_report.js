@@ -111,7 +111,7 @@ window.showReportPreview = function() {
     previewArea.innerHTML = `
         <div id="pdf-content" style="padding: 20px; font-family: 'Inter', sans-serif; color: #1e293b;">
             <div style="text-align:center; margin-bottom:30px; border-bottom: 3px solid #2563eb; padding-bottom: 15px;">
-                <h1 style="margin:0; color:#2563eb; font-size: 24px;">CITY HOSPITAL HMS</h1>
+                <h1 style="margin:0; color:#2563eb; font-size: 24px;">CITY HOSPITAL KOLHAPUR</h1>
                 <p style="margin:5px 0; color:#1e293b; font-weight:700; font-size: 16px;">OPD Consultation Sequential Report</p>
                 <p style="font-size:12px; color:#64748b;">Filter: ${currentFilter.toUpperCase()} | Generated: ${new Date().toLocaleString()}</p>
             </div>

@@ -44,6 +44,29 @@ margin:0;
 font-size:28px;
 }
 
+/* NEW: hospital header (hidden normally) */
+
+.hospital-header{
+display:none;
+text-align:center;
+margin-bottom:20px;
+border-bottom:3px solid #2563eb;
+padding-bottom:10px;
+}
+
+.hospital-header h2{
+margin:0;
+color:#2563eb;
+font-size:22px;
+font-weight:700;
+}
+
+.hospital-header p{
+margin:5px 0 0;
+font-size:14px;
+color:#6b7280;
+}
+
 /* button */
 
 .back-btn{
@@ -59,6 +82,24 @@ transition:0.2s;
 
 .back-btn:hover{
 background:#374151;
+}
+
+/* PDF button */
+
+.pdf-btn{
+background:#2563eb;
+color:white;
+padding:10px 20px;
+border-radius:10px;
+border:none;
+font-weight:500;
+font-size:14px;
+cursor:pointer;
+margin-left:10px;
+}
+
+.pdf-btn:hover{
+background:#1d4ed8;
 }
 
 /* table */
@@ -107,6 +148,40 @@ padding:30px;
 color:#6b7280;
 }
 
+/* PRINT STYLE */
+
+@media print {
+
+body{
+background:white;
+padding:0;
+}
+
+.back-btn,
+.pdf-btn,
+.header{
+display:none;
+}
+
+/* SHOW hospital header only in PDF */
+
+.hospital-header{
+display:block;
+}
+
+.container{
+box-shadow:none;
+border-radius:0;
+padding:10px;
+}
+
+a{
+color:black !important;
+text-decoration:none;
+}
+
+}
+
 </style>
 
 </head>
@@ -115,12 +190,25 @@ color:#6b7280;
 
 <div class="container">
 
+<!-- HOSPITAL HEADER (PRINT ONLY) -->
+<div class="hospital-header">
+<h2>CITY HOSPITAL KOLHAPUR</h2>
+<p>Today's Patient Registrations</p>
+</div>
+
 <div class="header">
 <h1>Today's Patient Registrations</h1>
 
+<div>
 <a href="../staff.html" class="back-btn">
 ← Back to Dashboard
 </a>
+
+<button class="pdf-btn" onclick="downloadPDF()">
+Download PDF
+</button>
+</div>
+
 </div>
 
 <table>
@@ -202,6 +290,11 @@ table.innerHTML = `<tr><td colspan="5" class="empty">No patients registered toda
 }
 
 loadTodayPatients();
+
+/* PDF */
+window.downloadPDF = function(){
+window.print();
+};
 
 </script>
 

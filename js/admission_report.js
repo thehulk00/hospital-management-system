@@ -101,7 +101,7 @@ window.showAdmissionPreview = function() {
     previewArea.innerHTML = `
         <div id="pdf-content" style="padding: 20px; font-family: 'Inter', sans-serif;">
             <div style="text-align:center; margin-bottom:30px; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
-                <h2 style="margin:0; color:#2563eb;">CITY HOSPITAL - INPATIENT RECORD</h2>
+                <h2 style="margin:0; color:#2563eb;">CITY HOSPITAL KOLHAPUR- INPATIENT RECORD</h2>
                 <p style="margin:5px 0; color:#64748b;">Daily Admission Summary Report</p>
                 <p style="font-size:12px;">Generated: ${new Date().toLocaleString()} | Filter: ${currentFilter.toUpperCase()}</p>
             </div>

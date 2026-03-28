@@ -58,7 +58,7 @@ window.showPerformancePreview = function() {
     const content = document.getElementById("performanceTableMain").outerHTML;
     document.getElementById("previewArea").innerHTML = `
         <div style="text-align:center; border-bottom:2px solid #4f46e5; padding-bottom:15px; margin-bottom:20px;">
-            <h2 style="margin:0; color:#4f46e5;">HMS PERFORMANCE REPORT 2026</h2>
+            <h2 style="margin:0; color:#4f46e5;">CITY HOSPITAL KOLHAPUR PERFORMANCE REPORT 2026</h2>
             <p style="margin:5px 0; color:#64748b;">Generated on: ${new Date().toLocaleString()}</p>
         </div>
         ${content}

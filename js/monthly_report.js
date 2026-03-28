@@ -88,7 +88,7 @@ window.openPreview = function() {
     previewArea.innerHTML = `
         <div style="text-align:center; margin-bottom:20px;">
             <h2 style="color:#f59e0b; margin:0;">Monthly Performance Summary</h2>
-            <p style="color:#64748b; font-size:13px;">Confidential Hospital Analytics</p>
+            <p style="color:#64748b; font-size:13px;">City Hospital KOlhapur</p>
         </div>
         <table style="width:100%; border-collapse:collapse; font-size:13px;">
             <thead>
@@ -116,7 +116,7 @@ window.downloadPDF = function() {
     
     doc.setFontSize(10);
     doc.setTextColor(100);
-    doc.text(`Hospital Management System | Period: 2026 | Generated: ${new Date().toLocaleDateString()}`, 14, 28);
+    doc.text(`City Hospital Kolhapur | Period: 2026 | Generated: ${new Date().toLocaleDateString()}`, 14, 28);
 
     doc.autoTable({
         html: "#monthlyReportTable",

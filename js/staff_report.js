@@ -54,7 +54,7 @@ window.downloadStaffPDF = function() {
 
     doc.setFontSize(18);
     doc.setTextColor(37, 99, 235);
-    doc.text("Official Staff Report - HMS PRO", 14, 20);
+    doc.text("Official Staff Report - City Hospital Kolhapur ", 14, 20);
 
     doc.autoTable({
         html: "#mainStaffTable",
